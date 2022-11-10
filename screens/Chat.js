@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { collection, addDoc, orderBy, query, onSnapshot } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
@@ -71,7 +71,7 @@ export default function Chat() {
       renderAvatarOnTop={true}
       messages={messages}
       showAvatarForEveryMessage={true}
-      ava
+      placeholder='Mensaje'
       showUserAvatar={false}
       onSend={(messages) => onSend(messages)}
       messagesContainerStyle={{

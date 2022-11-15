@@ -9,7 +9,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { pickImage } from "../providers/image-picker.provider";
 import { getUser, updateUser } from "../providers/user.provider";
@@ -24,21 +24,19 @@ export default function Profile() {
   const [userName, setUserName] = useState(user.userName ?? null);
 
   async function handleProfilePicture() {
-    const imageB64 = await pickImage();
+    const imagePickedBase64 = await pickImage();
 
-    if (imageB64) {
-      setImage(imageB64);
+    if (imagePickedBase64) {
+      setImage(imagePickedBase64);
     }
   }
 
   async function handleSave() {
-    let userUpdated = {};
-
     if (image) {
-      const cloudinary = await cloudinaryUpload(image);
+      const cloudinary = await cloudinaryUpload(image, user.uid, false);
 
       if (cloudinary) {
-        userUpdated.cloudinary = {
+        user.cloudinary = {
           url: cloudinary.url,
           assetId: cloudinary.asset_id,
         };
@@ -46,13 +44,12 @@ export default function Profile() {
     }
 
     if (userName) {
-      userUpdated.userName = userName;
+      user.userName = userName;
     }
 
-    if (Object.keys(userUpdated).length) {
-      await updateUser({ ...user, ...userUpdated });
-      navigation.navigate("Chat");
-    }
+    await updateUser(user);
+
+    navigation.navigate("Chat");
   }
 
   return (

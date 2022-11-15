@@ -47,4 +47,6 @@ export const updateUser = async (user) => {
 
   // Update local userModel
   userModel = user;
+
+  console.log("Updated user: ", userModel);
 };

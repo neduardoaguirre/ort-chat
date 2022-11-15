@@ -1,7 +1,7 @@
 export class User {
-  constructor(email, image, name, uid, userName) {
+  constructor(email, cloudinary, name, uid, userName) {
     this.email = email ?? '';
-    this.image = image ?? '';
+    this.cloudinary = cloudinary ?? '';
     this.name = name ?? '';
     this.uid = uid ?? '';
     this.userName = userName ?? '';

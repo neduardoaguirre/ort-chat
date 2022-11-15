@@ -1,76 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { auth, database } from '../config/firebase';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
   Image,
   SafeAreaView,
-  TouchableOpacity,
   StatusBar,
-  Alert
-} from 'react-native';
-import { askForPermission, pickImage, uploadImage } from '../utils';
-import { doc, setDoc } from 'firebase/firestore';
-import { useNavigation } from '@react-navigation/native';
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
+import { pickImage } from "../providers/image-picker.provider";
+import { getUser, updateUser } from "../providers/user.provider";
+import { cloudinaryUpload } from "../providers/utils.provider";
 
 export default function Profile() {
-  const [displayName, setDisplayName] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
   const navigation = useNavigation();
 
-  const [permissionStatus, setPermissionStatus] = useState(null);
-  useEffect(() => {
-    (async () => {
-      const status = await askForPermission();
-      setPermissionStatus(status);
-    })();
-  }, []);
+  const user = getUser();
 
-  async function handlePress() {
-    const user = auth.currentUser;
-    let photoURL;
-    if (selectedImage) {
-      const { url } = await uploadImage(selectedImage, `images/${user.uid}`, 'profilePicture');
-      photoURL = url;
-      console.log('🚀 ~ file: Profile.js ~ line 39 ~ photoURL', photoURL);
-    }
-    const userData = {
-      displayName,
-      email: user.email
-    };
-    if (photoURL) {
-      userData.photoURL = photoURL;
-    }
-
-    await Promise.all([
-      updateProfile(user, userData),
-      setDoc(doc(database, 'users', user.uid), { ...userData, uid: user.uid })
-    ]);
-    navigation.navigate('Chat');
-  }
+  const [image, setImage] = useState(user?.cloudinary?.url ?? null);
+  const [userName, setUserName] = useState(user.userName ?? null);
 
   async function handleProfilePicture() {
-    const result = await pickImage();
-    if (!result.cancelled) {
-      setSelectedImage(decodeURI(result.uri));
+    const imageB64 = await pickImage();
+
+    if (imageB64) {
+      setImage(imageB64);
     }
   }
 
-  useEffect(() => {
-    const user = auth.currentUser;
-    setSelectedImage(user.photoURL);
-    setDisplayName(user.displayName);
-  }, []);
+  async function handleSave() {
+    let userUpdated = {};
 
-  if (!permissionStatus) {
-    return <Text>Loading</Text>;
-  }
-  if (permissionStatus !== 'granted') {
-    return <Text>You need to allow this permission</Text>;
+    if (image) {
+      const cloudinary = await cloudinaryUpload(image);
+
+      if (cloudinary) {
+        userUpdated.cloudinary = {
+          url: cloudinary.url,
+          assetId: cloudinary.asset_id,
+        };
+      }
+    }
+
+    if (userName) {
+      userUpdated.userName = userName;
+    }
+
+    if (Object.keys(userUpdated).length) {
+      await updateUser({ ...user, ...userUpdated });
+      navigation.navigate("Chat");
+    }
   }
 
   return (
@@ -78,29 +60,57 @@ export default function Profile() {
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
         <TouchableOpacity
-          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
           onPress={handleProfilePicture}
         >
-          {!selectedImage ? (
-            <MaterialCommunityIcons name='camera-plus' color={'#717171'} size={100} />
+          {!image ? (
+            <MaterialCommunityIcons
+              name="camera-plus"
+              color={"#717171"}
+              size={100}
+            />
           ) : (
-            <Image source={{ uri: selectedImage }} style={{ width: '50%', height: '50%', borderRadius: 15 }} />
+            <Image
+              source={{ uri: image }}
+              style={{ width: "50%", height: "50%", borderRadius: 15 }}
+            />
           )}
         </TouchableOpacity>
+        <Text
+          style={{
+            fontWeight: "bold",
+            color: "#000000",
+            fontSize: 18,
+            marginBottom: 20,
+          }}
+        >
+          {user.name}
+        </Text>
         <TextInput
           style={styles.input}
-          placeholder='Nombre'
-          autoCapitalize='words'
-          textContentType='text'
+          placeholder="Nombre de usuario"
+          autoCapitalize="words"
+          textContentType="text"
           autoFocus={true}
-          value={displayName}
-          onChangeText={(text) => setDisplayName(text)}
+          value={userName}
+          onChangeText={(text) => setUserName(text)}
         />
-        <TouchableOpacity style={styles.button} onPress={handlePress} disabled={!displayName}>
-          <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>Guardar</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSave}
+          disabled={!userName || !image}
+        >
+          <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>
+            Guardar
+          </Text>
         </TouchableOpacity>
       </SafeAreaView>
-      <StatusBar barStyle='light-content' />
+      <StatusBar barStyle="light-content" />
     </View>
   );
 }
@@ -108,33 +118,33 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: "#fff",
   },
   input: {
-    backgroundColor: '#F6F7FB',
+    backgroundColor: "#F6F7FB",
     height: 48,
     marginBottom: 20,
     fontSize: 16,
     borderRadius: 10,
-    padding: 12
+    padding: 12,
   },
   whiteSheet: {
-    width: '100%',
-    height: '75%',
-    position: 'absolute',
+    width: "100%",
+    height: "75%",
+    position: "absolute",
     bottom: 0,
-    backgroundColor: '#fff'
+    backgroundColor: "#fff",
   },
   form: {
     flex: 1,
-    justifyContent: 'center',
-    marginHorizontal: 30
+    justifyContent: "center",
+    marginHorizontal: 30,
   },
   button: {
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
     height: 48,
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useCallback } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { collection, addDoc, orderBy, query, onSnapshot } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
@@ -25,14 +25,29 @@ export default function Chat() {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
+        <View
           style={{
-            marginRight: 10
+            display: 'flex',
+            flexDirection: 'row'
           }}
-          onPress={onSignOut}
         >
-          <AntDesign name='logout' size={24} color={colors.gray} style={{ marginRight: 10 }} />
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight: 10
+            }}
+            onPress={() => navigation.navigate('Profile')}
+          >
+            <AntDesign name='user' size={24} color={colors.gray} style={{ marginRight: 10 }} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight: 10
+            }}
+            onPress={onSignOut}
+          >
+            <AntDesign name='logout' size={24} color={colors.gray} style={{ marginRight: 10 }} />
+          </TouchableOpacity>
+        </View>
       )
     });
   }, [navigation]);

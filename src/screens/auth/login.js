@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../config/firebase';
+import React, { useState } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
+  Alert,
   Image,
   SafeAreaView,
-  TouchableOpacity,
   StatusBar,
-  Alert
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
+import { auth } from '../../config/firebase';
 
-const backImage = require('../assets/backImage.jpg');
+const backImage = require('../../assets/backImage.jpg');
 
-export default function Login({ navigation }) {
+export const LoginComponent = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const onHandleLogin = () => {
@@ -34,38 +34,58 @@ export default function Login({ navigation }) {
         <Text style={styles.title}>ORT Chat</Text>
         <TextInput
           style={styles.input}
-          placeholder='correo@correo.com'
-          autoCapitalize='none'
-          keyboardType='email-address'
-          textContentType='emailAddress'
+          placeholder="correo@correo.com"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          textContentType="emailAddress"
           autoFocus={true}
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
         <TextInput
           style={styles.input}
-          placeholder='Contraseña'
-          autoCapitalize='none'
+          placeholder="Contraseña"
+          autoCapitalize="none"
           autoCorrect={false}
           secureTextEntry={true}
-          textContentType='password'
+          textContentType="password"
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
         <TouchableOpacity style={styles.button} onPress={onHandleLogin}>
-          <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>Iniciar Sesion</Text>
+          <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>
+            Iniciar Sesion
+          </Text>
         </TouchableOpacity>
-        <View style={{ marginTop: 20, flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
-          <Text style={{ color: 'gray', fontWeight: '600', fontSize: 14 }}>¿No tenes cuenta?</Text>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+            alignSelf: 'center'
+          }}
+        >
+          <Text style={{ color: 'gray', fontWeight: '600', fontSize: 14 }}>
+            ¿No tenes cuenta?
+          </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-            <Text style={{ marginLeft: 10, color: 'blue', fontWeight: '600', fontSize: 14 }}>Registrarse</Text>
+            <Text
+              style={{
+                marginLeft: 10,
+                color: 'blue',
+                fontWeight: '600',
+                fontSize: 14
+              }}
+            >
+              Registrarse
+            </Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-      <StatusBar barStyle='light-content' />
+      <StatusBar barStyle="light-content" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

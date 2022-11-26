@@ -1,6 +1,6 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -9,13 +9,13 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
-} from "react-native";
-import { pickImage } from "../providers/image-picker.provider";
-import { getUser, updateUser } from "../providers/user.provider";
-import { cloudinaryUpload } from "../providers/utils.provider";
+  View
+} from 'react-native';
+import { pickImage } from '../../providers/image-picker.provider';
+import { getUser, updateUser } from '../../providers/user.provider';
+import { cloudinaryUpload } from '../../providers/utils.provider';
 
-export default function Profile() {
+export const ProfileComponent = () => {
   const navigation = useNavigation();
 
   const user = getUser();
@@ -38,7 +38,7 @@ export default function Profile() {
       if (cloudinary) {
         user.cloudinary = {
           url: cloudinary.url,
-          assetId: cloudinary.asset_id,
+          assetId: cloudinary.asset_id
         };
       }
     }
@@ -49,7 +49,7 @@ export default function Profile() {
 
     await updateUser(user);
 
-    navigation.navigate("Chat");
+    navigation.navigate('Chat');
   }
 
   return (
@@ -58,32 +58,32 @@ export default function Profile() {
       <SafeAreaView style={styles.form}>
         <TouchableOpacity
           style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: 10,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 10
           }}
           onPress={handleProfilePicture}
         >
           {!image ? (
             <MaterialCommunityIcons
               name="camera-plus"
-              color={"#717171"}
+              color={'#717171'}
               size={100}
             />
           ) : (
             <Image
               source={{ uri: image }}
-              style={{ width: "50%", height: "50%", borderRadius: 15 }}
+              style={{ width: '50%', height: '50%', borderRadius: 15 }}
             />
           )}
         </TouchableOpacity>
         <Text
           style={{
-            fontWeight: "bold",
-            color: "#000000",
+            fontWeight: 'bold',
+            color: '#000000',
             fontSize: 18,
-            marginBottom: 20,
+            marginBottom: 20
           }}
         >
           {user.name}
@@ -102,7 +102,7 @@ export default function Profile() {
           onPress={handleSave}
           disabled={!userName || !image}
         >
-          <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>
+          <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>
             Guardar
           </Text>
         </TouchableOpacity>
@@ -110,38 +110,38 @@ export default function Profile() {
       <StatusBar barStyle="light-content" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff'
   },
   input: {
-    backgroundColor: "#F6F7FB",
+    backgroundColor: '#F6F7FB',
     height: 48,
     marginBottom: 20,
     fontSize: 16,
     borderRadius: 10,
-    padding: 12,
+    padding: 12
   },
   whiteSheet: {
-    width: "100%",
-    height: "75%",
-    position: "absolute",
+    width: '100%',
+    height: '75%',
+    position: 'absolute',
     bottom: 0,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff'
   },
   form: {
     flex: 1,
-    justifyContent: "center",
-    marginHorizontal: 30,
+    justifyContent: 'center',
+    marginHorizontal: 30
   },
   button: {
-    backgroundColor: "blue",
+    backgroundColor: 'blue',
     height: 48,
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });

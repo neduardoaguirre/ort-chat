@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { createContext, useState } from "react";
-import { User } from "../ models/user.model";
+import { User } from "../models/user.model";
 import { database } from "../config/firebase";
 
 let userModel = new User();

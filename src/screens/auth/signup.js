@@ -1,5 +1,5 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
 import {
   Alert,
   Image,
@@ -9,28 +9,28 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
-} from "react-native";
-import { User } from "../models/user.model";
-import { auth } from "../config/firebase";
-import { updateUser } from "../providers/user.provider";
+  View
+} from 'react-native';
+import { auth } from '../../config/firebase';
+import { User } from '../../models/user.model';
+import { updateUser } from '../../providers/user.provider';
 
-const backImage = require("../assets/backImage.jpg");
+const backImage = require('../../assets/backImage.jpg');
 
-export default function Signup({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+export const SignupComponent = ({ navigation }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   const onHandleSignup = async () => {
-    if (name !== "" && email !== "" && password !== "") {
+    if (name !== '' && email !== '' && password !== '') {
       createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
-          console.log("Signup success");
+          console.log('Signup success');
 
           await createUserProfile(userCredential);
         })
-        .catch((err) => Alert.alert("Login error", err.message));
+        .catch((err) => Alert.alert('Login error', err.message));
     }
   };
 
@@ -82,28 +82,28 @@ export default function Signup({ navigation }) {
           onChangeText={(text) => setPassword(text)}
         />
         <TouchableOpacity style={styles.button} onPress={onHandleSignup}>
-          <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>
+          <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>
             Registrarse
           </Text>
         </TouchableOpacity>
         <View
           style={{
             marginTop: 20,
-            flexDirection: "row",
-            alignItems: "center",
-            alignSelf: "center",
+            flexDirection: 'row',
+            alignItems: 'center',
+            alignSelf: 'center'
           }}
         >
-          <Text style={{ color: "gray", fontWeight: "600", fontSize: 14 }}>
+          <Text style={{ color: 'gray', fontWeight: '600', fontSize: 14 }}>
             ¿Ya tenes cuenta?
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text
               style={{
                 marginLeft: 10,
-                color: "blue",
-                fontWeight: "600",
-                fontSize: 14,
+                color: 'blue',
+                fontWeight: '600',
+                fontSize: 14
               }}
             >
               Iniciar Sesión
@@ -114,54 +114,54 @@ export default function Signup({ navigation }) {
       <StatusBar barStyle="light-content" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff'
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
-    color: "blue",
-    alignSelf: "center",
+    fontWeight: 'bold',
+    color: 'blue',
+    alignSelf: 'center',
     padding: 24,
-    marginTop: 50,
+    marginTop: 50
   },
   input: {
-    backgroundColor: "#F6F7FB",
+    backgroundColor: '#F6F7FB',
     height: 48,
     marginBottom: 20,
     fontSize: 16,
     borderRadius: 10,
-    padding: 12,
+    padding: 12
   },
   backImage: {
-    width: "100%",
+    width: '100%',
     height: 340,
-    position: "absolute",
+    position: 'absolute',
     top: 0,
-    resizeMode: "cover",
+    resizeMode: 'cover'
   },
   whiteSheet: {
-    width: "100%",
-    height: "75%",
-    position: "absolute",
+    width: '100%',
+    height: '75%',
+    position: 'absolute',
     bottom: 0,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff'
   },
   form: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     marginHorizontal: 30,
-    marginTop: 100,
+    marginTop: 100
   },
   button: {
-    backgroundColor: "blue",
+    backgroundColor: 'blue',
     height: 48,
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });

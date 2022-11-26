@@ -3,15 +3,22 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import { Button } from 'native-base';
 import { appVersion } from '../../providers/version';
+import { auth } from '../../config/firebase';
+import { signOut } from 'firebase/auth';
 
 export const ConfigComponent = ({ navigation }) => {
   const goTo = (path) => {
     console.log('goTo: ', path);
     if (path === 'Exit') {
+      onSignOut();
       return;
     } else {
       navigation.push(path);
     }
+  };
+
+  const onSignOut = () => {
+    signOut(auth).catch((error) => console.log('Error logging out: ', error));
   };
 
   return (

@@ -1,40 +1,18 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { registerRootComponent } from 'expo';
 import { onAuthStateChanged } from 'firebase/auth';
-import { Box, NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider } from 'native-base';
 import React, { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, View, Text } from 'react-native';
-import { TabBarComponent } from './screens/tab-bar';
+import { ActivityIndicator, View } from 'react-native';
 import { auth } from './config/firebase';
 import {
   AuthenticatedUserContext,
   AuthenticatedUserProvider,
   loadUser
 } from './providers/user.provider';
-/*
+import { AuhtStack } from './screens/auth/auth.stack';
+import { TabBarComponent } from './screens/tab-bar';
 
-const Stack = createStackNavigator();
-
-function ChatStack() {
-  return (
-    <Stack.Navigator defaultScreenOptions={Chat}>
-      <Stack.Screen name="Chat" component={Chat} />
-      <Stack.Screen name="Profile" component={Profile} />
-    </Stack.Navigator>
-  );
-}
-
-function AuthStack() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Signup" component={Signup} />
-    </Stack.Navigator>
-  );
-}
-
-function RootNavigator() {
+const RootNavigator = () => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -65,17 +43,17 @@ function RootNavigator() {
 
   // If user authenticated go to Chat screen otherwise go to Auth page
   return (
-    <NavigationContainer>
-      {user ? <ChatStack /> : <AuthStack />}
-    </NavigationContainer>
+    <NativeBaseProvider>
+      {user ? <TabBarComponent></TabBarComponent> : <AuhtStack></AuhtStack>}
+    </NativeBaseProvider>
   );
-}
-*/
+};
+
 const AppComponent = () => {
   return (
-    <NativeBaseProvider>
-      <TabBarComponent></TabBarComponent>
-    </NativeBaseProvider>
+    <AuthenticatedUserProvider>
+      <RootNavigator />
+    </AuthenticatedUserProvider>
   );
 };
 

@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { User } from "../ models/user.model";
+import { User } from "../models/user.model";
 import { auth } from "../config/firebase";
 import { updateUser } from "../providers/user.provider";
 

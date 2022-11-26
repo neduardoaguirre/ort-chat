@@ -1,18 +1,20 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { onAuthStateChanged } from "firebase/auth";
-import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
-import { auth } from "./config/firebase";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { registerRootComponent } from 'expo';
+import { onAuthStateChanged } from 'firebase/auth';
+import { Box, NativeBaseProvider } from 'native-base';
+import React, { useContext, useEffect, useState } from 'react';
+import { ActivityIndicator, View, Text } from 'react-native';
+import { auth } from './config/firebase';
 import {
   AuthenticatedUserContext,
   AuthenticatedUserProvider,
-  loadUser,
-} from "./providers/user.provider";
-import Chat from "./screens/Chat";
-import Login from "./screens/Login";
-import Profile from "./screens/Profile";
-import Signup from "./screens/Signup";
+  loadUser
+} from './providers/user.provider';
+import Chat from './screens/Chat';
+import Login from './screens/Login';
+import Profile from './screens/Profile';
+import Signup from './screens/Signup';
 
 const Stack = createStackNavigator();
 
@@ -57,7 +59,7 @@ function RootNavigator() {
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
       </View>
     );
@@ -71,10 +73,14 @@ function RootNavigator() {
   );
 }
 
-export default function App() {
+const AppComponent = () => {
   return (
-    <AuthenticatedUserProvider>
-      <RootNavigator />
-    </AuthenticatedUserProvider>
+    <NativeBaseProvider>
+      <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
+        <Text>Open up App.js to start working on your app!</Text>
+      </Box>
+    </NativeBaseProvider>
   );
-}
+};
+
+export default registerRootComponent(AppComponent);

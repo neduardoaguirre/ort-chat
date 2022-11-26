@@ -71,6 +71,7 @@ export const TabBarComponent = () => {
               flex={1}
               alignItems="center"
               p="3"
+              key={route.key}
             >
               <Pressable
                 onPress={() => {
@@ -104,9 +105,6 @@ export const TabBarComponent = () => {
       onIndexChange={setIndex}
       initialLayout={initialLayout}
       tabBarPosition="bottom"
-      style={{
-        marginTop: StatusBar.currentHeight
-      }}
     />
   );
 };

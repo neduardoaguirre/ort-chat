@@ -2,17 +2,18 @@ import { Box, VStack, Heading, Flex, Text, Divider } from 'native-base';
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { Button } from 'native-base';
-import { appVersion } from '../providers/version';
+import { appVersion } from '../../providers/version';
 
-const goTo = (path) => {
-  console.log(path);
-  /**
-   * @TODO
-   * Implementar un switch para si es perfil ir a perfil, si es nosotros ir a about, si es salir ejecutar el salir
-   */
-};
+export const ConfigComponent = ({ navigation }) => {
+  const goTo = (path) => {
+    console.log('goTo: ', path);
+    if (path === 'Exit') {
+      return;
+    } else {
+      navigation.push(path);
+    }
+  };
 
-export const ConfigComponent = () => {
   return (
     <Box flex="1" safeAreaTop>
       <ScrollView>
@@ -22,13 +23,13 @@ export const ConfigComponent = () => {
           </Heading>
           <Divider />
           <Flex direction="column" padding={5}>
-            <Button marginBottom={2} onPress={() => goTo('profile')}>
+            <Button marginBottom={2} onPress={() => goTo('Profile')}>
               Perfil
             </Button>
-            <Button marginBottom={2} onPress={() => goTo('exit')}>
+            <Button marginBottom={2} onPress={() => goTo('About')}>
               Nosotros
             </Button>
-            <Button marginBottom={2} onPress={() => goTo('exit')}>
+            <Button marginBottom={2} onPress={() => goTo('Exit')}>
               Salir
             </Button>
           </Flex>

@@ -4,14 +4,14 @@ import React from 'react';
 import { Animated, Dimensions, Pressable } from 'react-native';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { ChatStack } from './chat/chat.stack';
-import { ConfigComponent } from './config';
+import { ConfigStack } from './config/config.stack';
 import { RoomStack } from './room/room.stack';
 
 const RoomRoute = () => <RoomStack></RoomStack>;
 
 const ChatRoute = () => <ChatStack></ChatStack>;
 
-const SettingRoute = () => <ConfigComponent></ConfigComponent>;
+const SettingRoute = () => <ConfigStack></ConfigStack>;
 
 const initialLayout = {
   width: Dimensions.get('window').width

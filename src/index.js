@@ -14,7 +14,7 @@ import { TabBarComponent } from './screens/tab-bar';
 
 const RootNavigator = () => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const [ isLoading, setIsLoading ] = useState(true);
 
   useEffect(() => {
     // onAuthStateChanged returns an unsubscriber
@@ -31,7 +31,7 @@ const RootNavigator = () => {
 
     // unsubscribe auth listener on unmount
     return unsubscribeAuth;
-  }, [user]);
+  }, [ user ]);
 
   if (isLoading) {
     return (
@@ -44,7 +44,7 @@ const RootNavigator = () => {
   // If user authenticated go to Chat screen otherwise go to Auth page
   return (
     <NativeBaseProvider>
-      {user ? <TabBarComponent></TabBarComponent> : <AuhtStack></AuhtStack>}
+      {user ? <TabBarComponent /> : <AuhtStack />}
     </NativeBaseProvider>
   );
 };

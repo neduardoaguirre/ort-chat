@@ -16,8 +16,8 @@ import { auth } from '../../config/firebase';
 const backImage = require('../../assets/backImage.jpg');
 
 export const LoginComponent = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
   const onHandleLogin = () => {
     if (email !== '' && password !== '') {
       signInWithEmailAndPassword(auth, email, password)

@@ -1,4 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
+import { database } from '../../config/firebase';
+import { collection, doc, onSnapshot, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
 import {
   Badge,
   Box,
@@ -11,38 +13,83 @@ import {
   Text,
   VStack
 } from 'native-base';
-import React from 'react';
+import { AuthenticatedUserContext } from '../../providers/user.provider';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 
-const mockRooms = [
-  {
-    room: {
-      id: 'xxx',
-      name: 'Anime',
-      members: 459
-    }
-  },
-  {
-    room: {
-      id: 'xxx',
-      name: 'Economia',
-      members: 15
-    }
-  },
-  {
-    room: {
-      id: 'xxx',
-      name: 'Tecnologia',
-      members: 50
-    }
-  }
-];
+// const mockRooms = [
+//   {
+//     room: {
+//       id: 'xxx',
+//      rname: 'Anime',
+//       members: 459
+//     }
+//   },
+//   {
+//     room: {
+//       id: 'xxx',
+//       name: 'Economia',
+//       members: 15
+//     }
+//   },
+//   {
+//     room: {
+//       id: 'xxx',
+//       name: 'Tecnologia',
+//       members: 50
+//     }
+//   }
+// ];
 
 export const RoomListComponent = ({ navigation }) => {
+
+
+  const [ rooms, setRooms ] = useState([])
+  const { user } = useContext(AuthenticatedUserContext)
+
+  useLayoutEffect(() => {
+    const collectionRef = collection(database, 'rooms');
+    const q = query(collectionRef, orderBy('name', 'desc'));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      setRooms(querySnapshot.docs.map(d => (
+        {
+          id: d.id,
+          name: d.data().name,
+          info: d.data().info,
+          users: d.data().users
+        }
+      )))
+    });
+    return unsubscribe;
+  }, []);
+
+  const handlePress = async (room) => {
+    let { users } = rooms.find(r => r.id === room.id)
+    if (room.users.includes(user.email)) {
+      try {
+        users = users.filter(us => us !== user.email)
+        await updateDoc(doc(database, "rooms", room.id), {
+          users
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      try {
+        users.push(user.email)
+        await updateDoc(doc(database, "rooms", room.id), { users: users })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
   const goTo = (room) => {
     console.log('goTo Room: ', room);
     navigation.push('RoomDetail');
   };
+
 
   return (
     <Box flex="1" safeAreaTop>
@@ -52,7 +99,7 @@ export const RoomListComponent = ({ navigation }) => {
             Salas
           </Heading>
           <Divider />
-          {mockRooms.map((room, i) => {
+          {rooms.map((r, i) => {
             return (
               <Box
                 alignSelf="center"
@@ -83,7 +130,7 @@ export const RoomListComponent = ({ navigation }) => {
                       Miembros
                     </Text>
                     <Text fontSize={10} color="coolGray.800">
-                      {room.room.members}
+                      {r.users.length}
                     </Text>
                   </Flex>
                 </HStack>
@@ -93,14 +140,18 @@ export const RoomListComponent = ({ navigation }) => {
                   fontWeight="medium"
                   fontSize="xl"
                 >
-                  {room.room.name}
+                  {r.name}
                 </Text>
                 <Flex direction="row" marginTop={3} alignItems="flex-end">
-                  <Button width="20" fontSize={12} onPress={() => goTo(room)}>
+                  <Button width="20" fontSize={12} onPress={() => goTo(r)}>
                     Info
                   </Button>
                   <Spacer></Spacer>
-                  <Ionicons name="book-outline" size={24} color="black" />
+                  <Button
+                    onPress={() => handlePress(r)}
+                  >
+                    {r.users.includes(user.email) ? 'Dar de baja' : 'Subscribirse'}
+                  </Button>
                 </Flex>
               </Box>
             );

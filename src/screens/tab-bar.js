@@ -1,11 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Box, useColorModeValue } from 'native-base';
-import React from 'react';
-import { Animated, Dimensions, Pressable } from 'react-native';
+import { Box, Text, useColorModeValue, Pressable } from 'native-base';
+import { AuthenticatedUserContext } from '../providers/user.provider';
+import React, { useContext, useLayoutEffect, useState } from 'react';
+import { Animated, Dimensions } from 'react-native';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { ChatStack } from './chat/chat.stack';
 import { ConfigStack } from './config/config.stack';
 import { RoomStack } from './room/room.stack';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { database } from '../config/firebase';
 
 const RoomRoute = () => <RoomStack></RoomStack>;
 
@@ -24,18 +27,21 @@ const renderScene = SceneMap({
 });
 
 export const TabBarComponent = () => {
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
+  const [ index, setIndex ] = useState(0);
+  const [ routes ] = useState([
     {
       key: 'room',
+      name: 'Rooms',
       icon: <Ionicons name="albums-outline" size={24} color="black" />
     },
     {
       key: 'chat',
+      name: 'Chats',
       icon: <Ionicons name="chatbubbles-outline" size={24} color="black" />
     },
     {
       key: 'setting',
+      name: 'Settings',
       icon: <Ionicons name="settings-outline" size={24} color="black" />
     }
   ]);
@@ -60,12 +66,14 @@ export const TabBarComponent = () => {
               alignItems="center"
               p="3"
               key={route.key}
+              bgColor='blue.500'
             >
               <Pressable
                 onPress={() => {
                   console.log(i);
                   setIndex(i);
                 }}
+                alignItems='center'
               >
                 <Animated.Text
                   style={{
@@ -74,11 +82,15 @@ export const TabBarComponent = () => {
                 >
                   {route.icon}
                 </Animated.Text>
+                <Text>
+                  {route.name}
+                </Text>
               </Pressable>
             </Box>
           );
-        })}
-      </Box>
+        })
+        }
+      </Box >
     );
   };
 

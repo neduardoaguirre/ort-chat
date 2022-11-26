@@ -4,8 +4,8 @@ import { ScrollView } from 'react-native';
 import { Button } from 'native-base';
 import { appVersion } from '../providers/version';
 
-const goTo = (root) => {
-  console.log(root);
+const goTo = (path) => {
+  console.log(path);
   /**
    * @TODO
    * Implementar un switch para si es perfil ir a perfil, si es nosotros ir a about, si es salir ejecutar el salir
@@ -16,10 +16,12 @@ export const ConfigComponent = () => {
   return (
     <Box flex="1" safeAreaTop>
       <ScrollView>
-        <VStack space={2.5} w="100%" px="3">
-          <Heading size="md">Opciones</Heading>
+        <VStack marginBottom={2}>
+          <Heading size="md" margin={5}>
+            Opciones
+          </Heading>
           <Divider />
-          <Flex direction="column" mb="2.5" mt="1.5">
+          <Flex direction="column" padding={5}>
             <Button marginBottom={2} onPress={() => goTo('profile')}>
               Perfil
             </Button>
@@ -31,7 +33,7 @@ export const ConfigComponent = () => {
             </Button>
           </Flex>
           <Divider />
-          <Text fontSize="sm" alignSelf={'center'}>
+          <Text marginTop={2} fontSize="sm" alignSelf={'center'}>
             Version {appVersion}
           </Text>
         </VStack>

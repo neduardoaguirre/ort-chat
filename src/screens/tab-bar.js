@@ -1,31 +1,26 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Box, Center, useColorModeValue } from 'native-base';
+import { Box, useColorModeValue } from 'native-base';
 import React from 'react';
-import { Animated, Dimensions, Pressable, StatusBar } from 'react-native';
+import { Animated, Dimensions, Pressable } from 'react-native';
 import { SceneMap, TabView } from 'react-native-tab-view';
+import { ChatListComponent } from './chat-list';
 import { ConfigComponent } from './config';
+import { RoomListComponent } from './room-list';
 
-const FirstRoute = () => (
-  <Center flex={1} my="4">
-    This is Tab 1
-  </Center>
-);
+const RoomRoute = () => <RoomListComponent></RoomListComponent>;
 
-const SecondRoute = () => (
-  <Center flex={1} my="4">
-    This is Tab 2
-  </Center>
-);
+const ChatRoute = () => <ChatListComponent></ChatListComponent>;
 
-const ThirdRoute = () => <ConfigComponent></ConfigComponent>;
+const SettingRoute = () => <ConfigComponent></ConfigComponent>;
 
 const initialLayout = {
   width: Dimensions.get('window').width
 };
+
 const renderScene = SceneMap({
-  room: FirstRoute,
-  chat: SecondRoute,
-  setting: ThirdRoute
+  room: RoomRoute,
+  chat: ChatRoute,
+  setting: SettingRoute
 });
 
 export const TabBarComponent = () => {

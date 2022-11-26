@@ -47,15 +47,12 @@ const mockChats = [
   }
 ];
 
-const goTo = (chat) => {
-  console.log(chat);
-  /**
-   * @TODO
-   * Implementar para ingresar al chat especifico
-   */
-};
+export const ChatListComponent = ({ navigation }) => {
+  const goTo = (chat) => {
+    console.log('goTo Chat: ', chat);
+    navigation.push('ChatDetail');
+  };
 
-export const ChatListComponent = () => {
   return (
     <Box flex="1" safeAreaTop>
       <ScrollView>

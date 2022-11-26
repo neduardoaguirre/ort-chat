@@ -1,6 +1,8 @@
+import { Ionicons } from '@expo/vector-icons';
 import {
   Badge,
   Box,
+  Button,
   Divider,
   Flex,
   Heading,
@@ -11,8 +13,6 @@ import {
 } from 'native-base';
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { Button } from 'native-base';
-import { Ionicons } from '@expo/vector-icons';
 
 const mockRooms = [
   {
@@ -38,15 +38,12 @@ const mockRooms = [
   }
 ];
 
-const goTo = (room) => {
-  console.log(room);
-  /**
-   * @TODO
-   * Implementar para ingresar a la sala especifica
-   */
-};
+export const RoomListComponent = ({ navigation }) => {
+  const goTo = (room) => {
+    console.log('goTo Room: ', room);
+    navigation.push('RoomDetail');
+  };
 
-export const RoomListComponent = () => {
   return (
     <Box flex="1" safeAreaTop>
       <ScrollView>

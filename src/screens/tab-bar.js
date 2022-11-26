@@ -3,13 +3,13 @@ import { Box, useColorModeValue } from 'native-base';
 import React from 'react';
 import { Animated, Dimensions, Pressable } from 'react-native';
 import { SceneMap, TabView } from 'react-native-tab-view';
-import { ChatListComponent } from './chat-list';
+import { ChatStack } from './chat/chat.stack';
 import { ConfigComponent } from './config';
-import { RoomListComponent } from './room-list';
+import { RoomStack } from './room/room.stack';
 
-const RoomRoute = () => <RoomListComponent></RoomListComponent>;
+const RoomRoute = () => <RoomStack></RoomStack>;
 
-const ChatRoute = () => <ChatListComponent></ChatListComponent>;
+const ChatRoute = () => <ChatStack></ChatStack>;
 
 const SettingRoute = () => <ConfigComponent></ConfigComponent>;
 
@@ -41,16 +41,9 @@ export const TabBarComponent = () => {
   ]);
 
   const renderTabBar = (props) => {
-    const inputRange = props.navigationState.routes.map((x, i) => i);
     return (
       <Box flexDirection="row">
         {props.navigationState.routes.map((route, i) => {
-          const opacity = props.position.interpolate({
-            inputRange,
-            outputRange: inputRange.map((inputIndex) =>
-              inputIndex === i ? 1 : 0.5
-            )
-          });
           const color =
             index === i
               ? useColorModeValue('#000', '#e5e5e5')

@@ -5,16 +5,14 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { Box, NativeBaseProvider } from 'native-base';
 import React, { useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
+import { TabBarComponent } from './screens/tab-bar';
 import { auth } from './config/firebase';
 import {
   AuthenticatedUserContext,
   AuthenticatedUserProvider,
   loadUser
 } from './providers/user.provider';
-import Chat from './screens/Chat';
-import Login from './screens/Login';
-import Profile from './screens/Profile';
-import Signup from './screens/Signup';
+/*
 
 const Stack = createStackNavigator();
 
@@ -72,13 +70,11 @@ function RootNavigator() {
     </NavigationContainer>
   );
 }
-
+*/
 const AppComponent = () => {
   return (
     <NativeBaseProvider>
-      <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
-        <Text>Open up App.js to start working on your app!</Text>
-      </Box>
+      <TabBarComponent></TabBarComponent>
     </NativeBaseProvider>
   );
 };

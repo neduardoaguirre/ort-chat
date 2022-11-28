@@ -9,10 +9,11 @@ import {
   Text,
   VStack
 } from 'native-base';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { Button } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
+import { AuthenticatedUserContext } from 'context/userContext';
 
 const mockChats = [
   {
@@ -48,6 +49,13 @@ const mockChats = [
 ];
 
 export const ChatListComponent = ({ navigation }) => {
+  const [ chats, setChats ] = useState()
+  const { user } = useContext(AuthenticatedUserContext)
+
+  const chatBelongs = useMemo(() => (
+    chats.filter(chat => chat.room.users.includes(user.email))
+  ), [ chats ])
+
   const goTo = (chat) => {
     console.log('goTo Chat: ', chat);
     navigation.push('ChatDetail');
@@ -62,7 +70,7 @@ export const ChatListComponent = ({ navigation }) => {
           </Heading>
           <Divider />
           {React.Children.toArray(
-            mockChats.map((chat, i) => {
+            chatBelongs.map((chat, i) => {
               return (
                 <Box
                   alignSelf="center"

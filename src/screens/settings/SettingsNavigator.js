@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { AboutComponent } from './about';
-import { ConfigComponent } from './config';
-import { ProfileComponent } from './profile';
+import { AboutComponent } from './About';
+import { ConfigComponent } from './ProfileSettings';
+import { UserInfo } from './UserInfo';
 
 const { createStackNavigator } = require('@react-navigation/stack');
 
@@ -14,7 +14,7 @@ export const ConfigStack = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Config" component={ConfigComponent} />
         <Stack.Screen name="About" component={AboutComponent} />
-        <Stack.Screen name="Profile" component={ProfileComponent} />
+        <Stack.Screen name="UserInfo" component={UserInfo} />
       </Stack.Navigator>
     </NavigationContainer>
   );

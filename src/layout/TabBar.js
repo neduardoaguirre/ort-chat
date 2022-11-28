@@ -3,9 +3,9 @@ import { Box, Text, useColorModeValue, Pressable } from 'native-base';
 import React, { useState } from 'react';
 import { Animated, Dimensions } from 'react-native';
 import { SceneMap, TabView } from 'react-native-tab-view';
-import { ChatStack } from './chat/chat.stack';
-import { ConfigStack } from './settings/config.stack';
-import { RoomStack } from './room/room.stack';
+import { ChatStack } from '../screens/chat/ChatNavigator';
+import { ConfigStack } from '../screens/settings/SettingsNavigator';
+import { RoomStack } from '../screens/room/RoomNavigator';
 
 const RoomRoute = () => <RoomStack></RoomStack>;
 
@@ -24,8 +24,8 @@ const renderScene = SceneMap({
 });
 
 export const TabBarComponent = () => {
-  const [ index, setIndex ] = useState(0);
-  const [ routes ] = useState([
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
     {
       key: 'room',
       name: 'Rooms',
@@ -63,14 +63,14 @@ export const TabBarComponent = () => {
               alignItems="center"
               p="3"
               key={route.key}
-              bgColor='blue.500'
+              bgColor="blue.500"
             >
               <Pressable
                 onPress={() => {
                   console.log(i);
                   setIndex(i);
                 }}
-                alignItems='center'
+                alignItems="center"
               >
                 <Animated.Text
                   style={{
@@ -79,15 +79,12 @@ export const TabBarComponent = () => {
                 >
                   {route.icon}
                 </Animated.Text>
-                <Text>
-                  {route.name}
-                </Text>
+                <Text>{route.name}</Text>
               </Pressable>
             </Box>
           );
-        })
-        }
-      </Box >
+        })}
+      </Box>
     );
   };
 

@@ -12,15 +12,15 @@ import {
   View
 } from 'react-native';
 import { auth } from '../../config/firebase';
-import { User } from '../../models/user.model';
-import { updateUser } from '../../providers/user.provider';
+import { User } from '../../models/User';
+import { updateUser } from '../../context/userContext';
 
 const backImage = require('../../assets/backImage.jpg');
 
 export const SignupComponent = ({ navigation }) => {
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ name, setName ] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   const onHandleSignup = async () => {
     if (name !== '' && email !== '' && password !== '') {

@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { ChatDetailComponent } from './chat-detail';
-import { ChatListComponent } from './chat-list';
+import { ChatDetailComponent } from './ChatDetail';
+import { ChatListComponent } from './ChatList';
 
 const { createStackNavigator } = require('@react-navigation/stack');
 

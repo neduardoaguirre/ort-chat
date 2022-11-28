@@ -1,6 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import { database } from '../../config/firebase';
-import { collection, doc, onSnapshot, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+  updateDoc
+} from 'firebase/firestore';
 import {
   Badge,
   Box,
@@ -14,56 +22,55 @@ import {
   Text,
   VStack
 } from 'native-base';
-import { AuthenticatedUserContext } from '../../providers/user.provider';
+import { AuthenticatedUserContext } from '../../context/userContext';
 import React, { useContext, useLayoutEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useDisclosure } from '../../hooks/useDisclosure';
 
 export const RoomListComponent = ({ navigation }) => {
+  const [rooms, setRooms] = useState([]);
+  const { user } = useContext(AuthenticatedUserContext);
+  const [selectedRoom, setSelectedRoom] = useState();
 
-  const [ rooms, setRooms ] = useState([])
-  const { user } = useContext(AuthenticatedUserContext)
-  const [ selectedRoom, setSelectedRoom ] = useState()
-
-  const { isOpen, onClose, onOpen } = useDisclosure()
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   useLayoutEffect(() => {
     const collectionRef = collection(database, 'rooms');
     const q = query(collectionRef, orderBy('name', 'desc'));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      setRooms(querySnapshot.docs.map(d => (
-        {
+      setRooms(
+        querySnapshot.docs.map((d) => ({
           id: d.id,
           name: d.data().name,
           info: d.data().info,
           users: d.data().users
-        }
-      )))
+        }))
+      );
     });
     return unsubscribe;
   }, []);
 
   const handlePress = async (room) => {
-    let { users } = rooms.find(r => r.id === room.id)
+    let { users } = rooms.find((r) => r.id === room.id);
     if (room.users.includes(user.email)) {
       try {
-        users = users.filter(us => us !== user.email)
-        await updateDoc(doc(database, "rooms", room.id), {
+        users = users.filter((us) => us !== user.email);
+        await updateDoc(doc(database, 'rooms', room.id), {
           users
-        })
+        });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     } else {
       try {
-        users.push(user.email)
-        await updateDoc(doc(database, "rooms", room.id), { users: users })
+        users.push(user.email);
+        await updateDoc(doc(database, 'rooms', room.id), { users: users });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
-  }
+  };
 
   const goTo = (room) => {
     console.log('goTo Room: ', room);
@@ -71,10 +78,9 @@ export const RoomListComponent = ({ navigation }) => {
   };
 
   const handleOpen = (room) => {
-    setSelectedRoom(room)
-    onOpen()
-  }
-
+    setSelectedRoom(room);
+    onOpen();
+  };
 
   return (
     <>
@@ -112,7 +118,11 @@ export const RoomListComponent = ({ navigation }) => {
                     </Badge>
                     <Spacer></Spacer>
                     <Flex marginTop={3}>
-                      <Text fontSize={10} color="coolGray.800" fontWeight="bold">
+                      <Text
+                        fontSize={10}
+                        color="coolGray.800"
+                        fontWeight="bold"
+                      >
                         Miembros
                       </Text>
                       <Text fontSize={10} color="coolGray.800">
@@ -129,7 +139,6 @@ export const RoomListComponent = ({ navigation }) => {
                     >
                       {r.name}
                     </Text>
-
                   </HStack>
 
                   <Flex direction="row" marginTop={3} alignItems="flex-end">
@@ -137,10 +146,10 @@ export const RoomListComponent = ({ navigation }) => {
                       Info
                     </Button>
                     <Spacer />
-                    <Button
-                      onPress={() => handlePress(r)}
-                    >
-                      {r.users.includes(user.email) ? 'Dar de baja' : 'Subscribirse'}
+                    <Button onPress={() => handlePress(r)}>
+                      {r.users.includes(user.email)
+                        ? 'Dar de baja'
+                        : 'Subscribirse'}
                     </Button>
                   </Flex>
                 </Box>
@@ -148,32 +157,24 @@ export const RoomListComponent = ({ navigation }) => {
             })}
           </VStack>
         </ScrollView>
-      </Box >
+      </Box>
 
-      {
-        selectedRoom && (
-          <Modal isOpen={isOpen} onClose={onClose} size='sm'>
-            <Modal.Content maxH={212}>
-              <Modal.CloseButton />
-              <Modal.Header textAlign={'justify'}>
-                <HStack space={1}>
-                  <Text>
-                    Room:
-                  </Text>
-                  <Text fontWeight={'bold'}>
-                    {selectedRoom.name}
-                  </Text>
-                </HStack>
-              </Modal.Header>
-              <Modal.Body>
-                <Text>
-                  {selectedRoom?.info}
-                </Text>
-              </Modal.Body>
-            </Modal.Content>
-          </Modal>
-        )
-      }
+      {selectedRoom && (
+        <Modal isOpen={isOpen} onClose={onClose} size="sm">
+          <Modal.Content maxH={212}>
+            <Modal.CloseButton />
+            <Modal.Header textAlign={'justify'}>
+              <HStack space={1}>
+                <Text>Room:</Text>
+                <Text fontWeight={'bold'}>{selectedRoom.name}</Text>
+              </HStack>
+            </Modal.Header>
+            <Modal.Body>
+              <Text>{selectedRoom?.info}</Text>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
+      )}
     </>
   );
 };

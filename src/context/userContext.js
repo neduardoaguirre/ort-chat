@@ -1,7 +1,7 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import React, { createContext, useState } from "react";
-import { User } from "../models/user.model";
-import { database } from "../config/firebase";
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import React, { createContext, useState } from 'react';
+import { User } from '../models/User';
+import { database } from '../config/firebase';
 
 let userModel = new User();
 
@@ -25,7 +25,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
  */
 export const loadUser = async (authUser) => {
   if (authUser) {
-    userModel = (await getDoc(doc(database, "users", authUser.uid))).data();
+    userModel = (await getDoc(doc(database, 'users', authUser.uid))).data();
   } else {
     userModel = null;
   }
@@ -41,12 +41,12 @@ export const getUser = () => {
  * @param user User model
  */
 export const updateUser = async (user) => {
-  await setDoc(doc(database, "users", user.uid), {
-    ...user,
+  await setDoc(doc(database, 'users', user.uid), {
+    ...user
   });
 
   // Update local userModel
   userModel = user;
 
-  console.log("Updated user: ", userModel);
+  console.log('Updated user: ', userModel);
 };

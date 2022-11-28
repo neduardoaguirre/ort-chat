@@ -8,13 +8,13 @@ import {
   AuthenticatedUserContext,
   AuthenticatedUserProvider,
   loadUser
-} from './providers/user.provider';
-import { AuhtStack } from './screens/auth/auth.stack';
-import { TabBarComponent } from './screens/tab-bar';
+} from './context/userContext';
+import { AuthNavigator } from './screens/auth/AuthNavigator';
+import { TabBarComponent } from './layout/TabBar';
 
 const RootNavigator = () => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
-  const [ isLoading, setIsLoading ] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // onAuthStateChanged returns an unsubscriber
@@ -28,7 +28,7 @@ const RootNavigator = () => {
     );
 
     return unsubscribeAuth;
-  }, [ user ]);
+  }, [user]);
 
   if (isLoading) {
     return (
@@ -41,7 +41,7 @@ const RootNavigator = () => {
   // If user authenticated go to Chat screen otherwise go to Auth page
   return (
     <NativeBaseProvider>
-      {user ? <TabBarComponent /> : <AuhtStack />}
+      {user ? <TabBarComponent /> : <AuthNavigator />}
     </NativeBaseProvider>
   );
 };

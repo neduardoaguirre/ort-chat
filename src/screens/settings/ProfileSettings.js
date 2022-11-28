@@ -2,7 +2,7 @@ import { Box, VStack, Heading, Flex, Text, Divider } from 'native-base';
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { Button } from 'native-base';
-import { appVersion } from '../../providers/version';
+import { appVersion } from '../../utils/version';
 import { auth } from '../../config/firebase';
 import { signOut } from 'firebase/auth';
 

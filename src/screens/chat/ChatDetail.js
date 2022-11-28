@@ -12,7 +12,7 @@ import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { auth, database } from '../../config/firebase';
-import { getUser } from '../../providers/user.provider';
+import { getUser } from '../../context/userContext';
 
 const colors = {
   primary: 'blue',

@@ -11,11 +11,11 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { pickImage } from '../../providers/image-picker.provider';
-import { getUser, updateUser } from '../../providers/user.provider';
-import { cloudinaryUpload } from '../../providers/utils.provider';
+import { pickImage } from '../../utils/imagePicker';
+import { getUser, updateUser } from '../../context/userContext';
+import { cloudinaryUpload } from '../../utils/cloudinary';
 
-export const ProfileComponent = () => {
+export const UserInfo = () => {
   const navigation = useNavigation();
 
   const user = getUser();

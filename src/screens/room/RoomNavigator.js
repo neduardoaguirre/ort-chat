@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { RoomDetailComponent } from './room-detail';
-import { RoomListComponent } from './room-list';
+import { RoomDetailComponent } from './RoomDetail';
+import { RoomListComponent } from './RoomList';
 
 const { createStackNavigator } = require('@react-navigation/stack');
 

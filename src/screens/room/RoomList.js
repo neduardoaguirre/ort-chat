@@ -91,70 +91,72 @@ export const RoomListComponent = ({ navigation }) => {
               Salas
             </Heading>
             <Divider />
-            {rooms.map((r, i) => {
-              return (
-                <Box
-                  alignSelf="center"
-                  rounded="8"
-                  overflow="hidden"
-                  borderWidth="1"
-                  borderColor="coolGray.300"
-                  width="90%"
-                  shadow="3"
-                  bg="coolGray.100"
-                  p="5"
-                  marginTop={3}
-                >
-                  <HStack alignItems="center">
-                    <Badge
-                      colorScheme="darkBlue"
-                      _text={{
-                        color: 'white'
-                      }}
-                      variant="solid"
-                      rounded="4"
-                    >
-                      {'Sala ' + (i + 1)}
-                    </Badge>
-                    <Spacer></Spacer>
-                    <Flex marginTop={3}>
-                      <Text
-                        fontSize={10}
-                        color="coolGray.800"
-                        fontWeight="bold"
+            {React.Children.toArray(
+              rooms.map((r, i) => {
+                return (
+                  <Box
+                    alignSelf="center"
+                    rounded="8"
+                    overflow="hidden"
+                    borderWidth="1"
+                    borderColor="coolGray.300"
+                    width="90%"
+                    shadow="3"
+                    bg="coolGray.100"
+                    p="5"
+                    marginTop={3}
+                  >
+                    <HStack alignItems="center">
+                      <Badge
+                        colorScheme="darkBlue"
+                        _text={{
+                          color: 'white'
+                        }}
+                        variant="solid"
+                        rounded="4"
                       >
-                        Miembros
+                        {'Sala ' + (i + 1)}
+                      </Badge>
+                      <Spacer></Spacer>
+                      <Flex marginTop={3}>
+                        <Text
+                          fontSize={10}
+                          color="coolGray.800"
+                          fontWeight="bold"
+                        >
+                          Miembros
+                        </Text>
+                        <Text fontSize={10} color="coolGray.800">
+                          {r.users.length}
+                        </Text>
+                      </Flex>
+                    </HStack>
+                    <HStack alignItems={'center'}>
+                      <Text
+                        color="coolGray.800"
+                        mt="3"
+                        fontWeight="medium"
+                        fontSize="xl"
+                      >
+                        {r.name}
                       </Text>
-                      <Text fontSize={10} color="coolGray.800">
-                        {r.users.length}
-                      </Text>
-                    </Flex>
-                  </HStack>
-                  <HStack alignItems={'center'}>
-                    <Text
-                      color="coolGray.800"
-                      mt="3"
-                      fontWeight="medium"
-                      fontSize="xl"
-                    >
-                      {r.name}
-                    </Text>
-                  </HStack>
+                    </HStack>
 
-                  <Flex direction="row" marginTop={3} alignItems="flex-end">
-                    <Button fontSize={8} onPress={() => handleOpen(r)}>
-                      Info
-                    </Button>
-                    <Spacer />
-                    <Button onPress={() => handlePress(r)}>
-                      {r.users.includes(user.email)
-                        ? 'Dar de baja'
-                        : 'Subscribirse'}
-                    </Button>
-                  </Flex>
-                </Box>
-              );
-            })}
+                    <Flex direction="row" marginTop={3} alignItems="flex-end">
+                      <Button fontSize={8} onPress={() => handleOpen(r)}>
+                        Info
+                      </Button>
+                      <Spacer />
+                      <Button onPress={() => handlePress(r)}>
+                        {r.users.includes(user.email)
+                          ? 'Dar de baja'
+                          : 'Subscribirse'}
+                      </Button>
+                    </Flex>
+                  </Box>
+                );
+              })
+            )}
           </VStack>
         </ScrollView>
       </Box>

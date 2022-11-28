@@ -30,7 +30,7 @@ export const ConfigComponent = ({ navigation }) => {
           </Heading>
           <Divider />
           <Flex direction="column" padding={5}>
-            <Button marginBottom={2} onPress={() => goTo('Profile')}>
+            <Button marginBottom={2} onPress={() => goTo('UserInfo')}>
               Perfil
             </Button>
             <Button marginBottom={2} onPress={() => goTo('About')}>

@@ -1,14 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Box, Text, useColorModeValue, Pressable } from 'native-base';
-import { AuthenticatedUserContext } from '../providers/user.provider';
-import React, { useContext, useLayoutEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Animated, Dimensions } from 'react-native';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { ChatStack } from './chat/chat.stack';
-import { ConfigStack } from './config/config.stack';
+import { ConfigStack } from './settings/config.stack';
 import { RoomStack } from './room/room.stack';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { database } from '../config/firebase';
 
 const RoomRoute = () => <RoomStack></RoomStack>;
 

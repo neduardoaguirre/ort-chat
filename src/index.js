@@ -22,14 +22,11 @@ const RootNavigator = () => {
       auth,
       async (authenticatedUser) => {
         authenticatedUser ? setUser(authenticatedUser) : setUser(null);
-
         await loadUser(authenticatedUser);
-
         setIsLoading(false);
       }
     );
 
-    // unsubscribe auth listener on unmount
     return unsubscribeAuth;
   }, [ user ]);
 

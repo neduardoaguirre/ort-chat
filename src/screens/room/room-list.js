@@ -9,6 +9,7 @@ import {
   Flex,
   Heading,
   HStack,
+  Modal,
   Spacer,
   Text,
   VStack
@@ -16,36 +17,15 @@ import {
 import { AuthenticatedUserContext } from '../../providers/user.provider';
 import React, { useContext, useLayoutEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
-
-// const mockRooms = [
-//   {
-//     room: {
-//       id: 'xxx',
-//      rname: 'Anime',
-//       members: 459
-//     }
-//   },
-//   {
-//     room: {
-//       id: 'xxx',
-//       name: 'Economia',
-//       members: 15
-//     }
-//   },
-//   {
-//     room: {
-//       id: 'xxx',
-//       name: 'Tecnologia',
-//       members: 50
-//     }
-//   }
-// ];
+import { useDisclosure } from '../../hooks/useDisclosure';
 
 export const RoomListComponent = ({ navigation }) => {
 
-
   const [ rooms, setRooms ] = useState([])
   const { user } = useContext(AuthenticatedUserContext)
+  const [ selectedRoom, setSelectedRoom ] = useState()
+
+  const { isOpen, onClose, onOpen } = useDisclosure()
 
   useLayoutEffect(() => {
     const collectionRef = collection(database, 'rooms');
@@ -90,74 +70,110 @@ export const RoomListComponent = ({ navigation }) => {
     navigation.push('RoomDetail');
   };
 
+  const handleOpen = (room) => {
+    setSelectedRoom(room)
+    onOpen()
+  }
+
 
   return (
-    <Box flex="1" safeAreaTop>
-      <ScrollView>
-        <VStack marginBottom={2}>
-          <Heading size="md" margin={5}>
-            Salas
-          </Heading>
-          <Divider />
-          {rooms.map((r, i) => {
-            return (
-              <Box
-                alignSelf="center"
-                rounded="8"
-                overflow="hidden"
-                borderWidth="1"
-                borderColor="coolGray.300"
-                width="90%"
-                shadow="3"
-                bg="coolGray.100"
-                p="5"
-                marginTop={3}
-              >
-                <HStack alignItems="center">
-                  <Badge
-                    colorScheme="darkBlue"
-                    _text={{
-                      color: 'white'
-                    }}
-                    variant="solid"
-                    rounded="4"
-                  >
-                    {'Sala ' + (i + 1)}
-                  </Badge>
-                  <Spacer></Spacer>
-                  <Flex marginTop={3}>
-                    <Text fontSize={10} color="coolGray.800" fontWeight="bold">
-                      Miembros
-                    </Text>
-                    <Text fontSize={10} color="coolGray.800">
-                      {r.users.length}
-                    </Text>
-                  </Flex>
-                </HStack>
-                <Text
-                  color="coolGray.800"
-                  mt="3"
-                  fontWeight="medium"
-                  fontSize="xl"
+    <>
+      <Box flex="1" safeAreaTop>
+        <ScrollView>
+          <VStack marginBottom={2}>
+            <Heading size="md" margin={5}>
+              Salas
+            </Heading>
+            <Divider />
+            {rooms.map((r, i) => {
+              return (
+                <Box
+                  alignSelf="center"
+                  rounded="8"
+                  overflow="hidden"
+                  borderWidth="1"
+                  borderColor="coolGray.300"
+                  width="90%"
+                  shadow="3"
+                  bg="coolGray.100"
+                  p="5"
+                  marginTop={3}
                 >
-                  {r.name}
+                  <HStack alignItems="center">
+                    <Badge
+                      colorScheme="darkBlue"
+                      _text={{
+                        color: 'white'
+                      }}
+                      variant="solid"
+                      rounded="4"
+                    >
+                      {'Sala ' + (i + 1)}
+                    </Badge>
+                    <Spacer></Spacer>
+                    <Flex marginTop={3}>
+                      <Text fontSize={10} color="coolGray.800" fontWeight="bold">
+                        Miembros
+                      </Text>
+                      <Text fontSize={10} color="coolGray.800">
+                        {r.users.length}
+                      </Text>
+                    </Flex>
+                  </HStack>
+                  <HStack alignItems={'center'}>
+                    <Text
+                      color="coolGray.800"
+                      mt="3"
+                      fontWeight="medium"
+                      fontSize="xl"
+                    >
+                      {r.name}
+                    </Text>
+
+                  </HStack>
+
+                  <Flex direction="row" marginTop={3} alignItems="flex-end">
+                    <Button fontSize={8} onPress={() => handleOpen(r)}>
+                      Info
+                    </Button>
+                    <Spacer />
+                    <Button
+                      onPress={() => handlePress(r)}
+                    >
+                      {r.users.includes(user.email) ? 'Dar de baja' : 'Subscribirse'}
+                    </Button>
+                  </Flex>
+                </Box>
+              );
+            })}
+          </VStack>
+        </ScrollView>
+      </Box >
+
+      {
+        selectedRoom && (
+          <Modal isOpen={isOpen} onClose={onClose} size='sm'>
+            <Modal.Content maxH={212}>
+              <Modal.CloseButton />
+              <Modal.Header textAlign={'justify'}>
+                <HStack space={1}>
+                  <Text>
+                    Room:
+                  </Text>
+                  <Text fontWeight={'bold'}>
+                    {selectedRoom.name}
+                  </Text>
+                </HStack>
+              </Modal.Header>
+              <Modal.Body>
+                <Text>
+                  {selectedRoom?.info}
                 </Text>
-                <Flex direction="row" marginTop={3} alignItems="flex-end">
-                  <Button width="20" fontSize={12} onPress={() => goTo(r)}>
-                    Info
-                  </Button>
-                  <Spacer></Spacer>
-                  <Button
-                    onPress={() => handlePress(r)}
-                  >
-                    {r.users.includes(user.email) ? 'Dar de baja' : 'Subscribirse'}
-                  </Button>
-                </Flex>
-              </Box>
-            );
-          })}
-        </VStack>
-      </ScrollView>
-    </Box>
+              </Modal.Body>
+            </Modal.Content>
+          </Modal>
+        )
+      }
+    </>
   );
 };

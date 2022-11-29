@@ -78,7 +78,7 @@ export const ChatDetailComponent = ({ route }) => {
     // const collectionRef = collection(database, 'chats'), where('roomId', '==', route.params))
     // const collectionRef =
     const q = query(
-      collection(database, 'chats'),
+      collection(database, 'messages'),
       where('roomId', '==', route.params)
     );
     // const q = query(collectionRef, orderBy('createdAt', 'desc'));
@@ -107,7 +107,7 @@ export const ChatDetailComponent = ({ route }) => {
 
     console.log('Message to send: ', messages[0]);
 
-    addDoc(collection(database, 'chats'), {
+    addDoc(collection(database, 'messages'), {
       roomId: route.params,
       _id,
       createdAt,

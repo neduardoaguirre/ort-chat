@@ -28,17 +28,17 @@ export const TabBarComponent = () => {
   const [routes] = useState([
     {
       key: 'room',
-      name: 'Rooms',
+      name: 'Salas',
       icon: <Ionicons name="albums-outline" size={24} color="black" />
     },
     {
       key: 'chat',
-      name: 'Chats',
+      name: 'Mis Chats',
       icon: <Ionicons name="chatbubbles-outline" size={24} color="black" />
     },
     {
       key: 'setting',
-      name: 'Settings',
+      name: 'Ajustes',
       icon: <Ionicons name="settings-outline" size={24} color="black" />
     }
   ]);

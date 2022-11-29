@@ -26,7 +26,7 @@ export const ConfigComponent = ({ navigation }) => {
       <ScrollView>
         <VStack marginBottom={2}>
           <Heading size="md" margin={5}>
-            Opciones
+            Ajustes
           </Heading>
           <Divider />
           <Flex direction="column" padding={5}>
@@ -37,7 +37,7 @@ export const ConfigComponent = ({ navigation }) => {
               Nosotros
             </Button>
             <Button marginBottom={2} onPress={() => goTo('Exit')}>
-              Salir
+              Cerrar Sesión
             </Button>
           </Flex>
           <Divider />

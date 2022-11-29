@@ -116,7 +116,7 @@ export const ChatListComponent = ({ navigation }) => {
                       {chat.name}
                     </Badge>
                     <Spacer></Spacer>
-                    <Flex marginTop={3}>
+                    {/* <Flex marginTop={3}>
                       <Text
                         fontSize={10}
                         color="coolGray.800"
@@ -126,8 +126,8 @@ export const ChatListComponent = ({ navigation }) => {
                       </Text>
                       <Text fontSize={10} color="coolGray.800">
                         {/* {chat.chat.lastMessage.toDateString()} */}
-                      </Text>
-                    </Flex>
+                    {/* </Text> */}
+                    {/* </Flex> */}
                   </HStack>
                   <Text
                     color="coolGray.800"
@@ -135,14 +135,17 @@ export const ChatListComponent = ({ navigation }) => {
                     fontWeight="medium"
                     fontSize="xl"
                   >
-                    Chat - {i + 1}
+                    {chat.info}
                   </Text>
                   <Flex direction="row" marginTop={3} alignItems="flex-end">
                     <Button width="20" fontSize={12} onPress={() => goTo(chat)}>
-                      Ir
+                      Chatear
                     </Button>
                     <Spacer></Spacer>
-                    <Ionicons name="people-outline" size={24} color="black" />
+                    <Text color="coolGray.800" fontWeight="bold">
+                      <Ionicons name="people-outline" size={24} color="black" />{' '}
+                      {chat.users.length}
+                    </Text>
                   </Flex>
                 </Box>
               );

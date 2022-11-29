@@ -118,15 +118,13 @@ export const RoomListComponent = ({ navigation }) => {
                         {'Sala ' + (i + 1)}
                       </Badge>
                       <Spacer></Spacer>
-                      <Flex marginTop={3}>
-                        <Text
-                          fontSize={10}
-                          color="coolGray.800"
-                          fontWeight="bold"
-                        >
-                          Miembros
-                        </Text>
-                        <Text fontSize={10} color="coolGray.800">
+                      <Flex>
+                        <Text color="coolGray.800" fontWeight="bold">
+                          <Ionicons
+                            name="people-outline"
+                            size={25}
+                            color="black"
+                          />{' '}
                           {r.users.length}
                         </Text>
                       </Flex>
@@ -148,9 +146,7 @@ export const RoomListComponent = ({ navigation }) => {
                       </Button>
                       <Spacer />
                       <Button onPress={() => handlePress(r)}>
-                        {r.users.includes(user.email)
-                          ? 'Dar de baja'
-                          : 'Subscribirse'}
+                        {r.users.includes(user.email) ? 'Salir' : 'Suscribirse'}
                       </Button>
                     </Flex>
                   </Box>

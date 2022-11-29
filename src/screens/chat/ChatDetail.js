@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { signOut } from 'firebase/auth';
@@ -11,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import { Heading, Divider } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { auth, database } from '../../config/firebase';
 import { getUser } from '../../context/userContext';
@@ -116,25 +118,41 @@ export const ChatDetailComponent = ({ route }) => {
     });
   }, []);
 
+  const handleBack = () => {
+    navigation.goBack()
+  }
+
   return (
-    <GiftedChat
-      renderAvatarOnTop={true}
-      messages={messages.sort((a, b) => b.createdAt - a.createdAt)}
-      showAvatarForEveryMessage={true}
-      placeholder="Mensaje"
-      showUserAvatar={true}
-      onSend={(messages) => onSend(messages)}
-      messagesContainerStyle={{
-        backgroundColor: '#fff'
-      }}
-      textInputStyle={{
-        backgroundColor: '#fff',
-        borderRadius: 20
-      }}
-      user={{
-        _id: user.uid,
-        avatar: user?.cloudinary?.url ?? defaultAvatar
-      }}
-    />
+    <>
+      <Heading size="md" margin={5} >
+        <TouchableOpacity onPress={handleBack}>
+          <Ionicons
+            name="arrow-back"
+            size={25}
+            color="blue"
+          />
+        </TouchableOpacity>
+      </Heading>
+      <Divider />
+      <GiftedChat
+        renderAvatarOnTop={true}
+        messages={messages.sort((a, b) => b.createdAt - a.createdAt)}
+        showAvatarForEveryMessage={true}
+        placeholder="Mensaje"
+        showUserAvatar={true}
+        onSend={(messages) => onSend(messages)}
+        messagesContainerStyle={{
+          backgroundColor: '#fff'
+        }}
+        textInputStyle={{
+          backgroundColor: '#fff',
+          borderRadius: 20
+        }}
+        user={{
+          _id: user.uid,
+          avatar: user?.cloudinary?.url ?? defaultAvatar
+        }}
+      />
+    </>
   );
 };

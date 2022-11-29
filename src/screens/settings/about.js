@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Box, Heading, VStack, Divider } from 'native-base';
 import React from 'react';
@@ -27,6 +28,11 @@ export const AboutComponent = () => {
             </Text>
             <TouchableOpacity onPress={handleBack}>
               <Text style={styles.goBack} >
+                <Ionicons
+                  name="arrow-back"
+                  size={15}
+                  color="blue"
+                />
                 Volver a los ajustes
               </Text>
             </TouchableOpacity>

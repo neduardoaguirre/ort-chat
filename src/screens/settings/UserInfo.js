@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
@@ -7,12 +8,11 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  Modal,
-  HStack,
   TextInput,
   TouchableOpacity,
   View
 } from 'react-native';
+import { Heading } from 'native-base';
 import { pickImage } from '../../utils/imagePicker';
 import { getUser, updateUser } from '../../context/userContext';
 import { cloudinaryUpload } from '../../utils/cloudinary';
@@ -60,8 +60,18 @@ export const UserInfo = () => {
 
   return (
     <View style={styles.container}>
+      <Heading size="md" margin={5} >
+        <TouchableOpacity onPress={handleBack}>
+          <Ionicons
+            name="arrow-back"
+            size={25}
+            color="blue"
+          />
+        </TouchableOpacity>
+      </Heading>
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
+
         <TouchableOpacity
           style={{
             display: 'flex',
@@ -112,11 +122,6 @@ export const UserInfo = () => {
             Guardar
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleBack}>
-          <Text style={styles.goBack} >
-            Volver a los ajustes
-          </Text>
-        </TouchableOpacity>
       </SafeAreaView>
       <StatusBar barStyle="light-content" />
     </View>
@@ -154,11 +159,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  goBack: {
-    textAlign: 'center',
-    marginTop: 20,
-    marginHorizontal: 20,
-    color: 'blue',
   }
 });

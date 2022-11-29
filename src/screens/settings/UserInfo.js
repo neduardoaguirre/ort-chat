@@ -54,6 +54,10 @@ export const UserInfo = () => {
     navigation.goBack();
   }
 
+  const handleBack = () => {
+    navigation.goBack()
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.whiteSheet} />
@@ -108,6 +112,11 @@ export const UserInfo = () => {
             Guardar
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={handleBack}>
+          <Text style={styles.goBack} >
+            Volver a los ajustes
+          </Text>
+        </TouchableOpacity>
       </SafeAreaView>
       <StatusBar barStyle="light-content" />
     </View>
@@ -145,5 +154,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  goBack: {
+    textAlign: 'center',
+    marginTop: 20,
+    marginHorizontal: 20,
+    color: 'blue',
   }
 });

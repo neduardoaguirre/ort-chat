@@ -1,26 +1,17 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import {
-  Alert,
-  Image,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../../config/firebase';
 import { User } from '../../models/User';
 import { updateUser } from '../../context/userContext';
-
-const backImage = require('../../assets/backImage.jpg');
+import backImage from '../../assets/backImage.jpg'
+import { Pressable, Icon, Image, View, Text, StatusBar, Input, VStack, Box, Button, Stack } from 'native-base';
 
 export const SignupComponent = ({ navigation }) => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ name, setName ] = useState('');
+  const [ show, setShow ] = useState(false)
 
   const onHandleSignup = async () => {
     if (name !== '' && email !== '' && password !== '') {
@@ -45,13 +36,26 @@ export const SignupComponent = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={backImage} style={styles.backImage} />
-      <View style={styles.whiteSheet} />
-      <SafeAreaView style={styles.form}>
-        <Text style={styles.title}>ORT Chat</Text>
-        <TextInput
-          style={styles.input}
+    <View flex={1}>
+      <Image source={backImage} alt='bgImage' h={'50%'} />
+      <VStack
+        space={2}
+        p={2}
+        px={5}
+        bgColor={'#fff'}
+        height={'100%'}
+        justifyContent={'flex-start'}
+      >
+        <Text
+          bgColor={'white'}
+          alignSelf='center'
+          fontWeight={'bold'}
+          fontSize={'3xl'}
+          color='blue.700'
+        >
+          ORT Chat
+        </Text>
+        <Input
           placeholder="Nombre"
           autoCapitalize="words"
           textContentType="text"
@@ -59,8 +63,7 @@ export const SignupComponent = ({ navigation }) => {
           value={name}
           onChangeText={(text) => setName(text)}
         />
-        <TextInput
-          style={styles.input}
+        <Input
           placeholder="correo@correo.com"
           autoCapitalize="none"
           keyboardType="email-address"
@@ -68,97 +71,48 @@ export const SignupComponent = ({ navigation }) => {
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-        <TextInput
-          style={styles.input}
+        <Input
           placeholder="Contraseña"
           autoCapitalize="none"
           autoCorrect={false}
-          secureTextEntry={true}
-          textContentType="password"
+          type={show ? 'text' : "password"}
           value={password}
           onChangeText={(text) => setPassword(text)}
+          InputRightElement={<Pressable onPress={() => setShow(!show)}>
+            <Icon as={<Ionicons name={show ? "eye-outline" : "eye-off-outline"} />} size={5} mr="2" color="muted.400" />
+          </Pressable>}
         />
-        <TouchableOpacity style={styles.button} onPress={onHandleSignup}>
-          <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>
+        <VStack>
+          <Button bgColor={'blue.700'} onPress={onHandleSignup}>
             Registrarse
-          </Text>
-        </TouchableOpacity>
-        <View
-          style={{
-            marginTop: 20,
-            flexDirection: 'row',
-            alignItems: 'center',
-            alignSelf: 'center'
-          }}
-        >
-          <Text style={{ color: 'gray', fontWeight: '600', fontSize: 14 }}>
-            ¿Ya tenes cuenta?
-          </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text
-              style={{
-                marginLeft: 10,
-                color: 'blue',
-                fontWeight: '600',
-                fontSize: 14
-              }}
-            >
-              Iniciar Sesión
+          </Button>
+          <View
+            style={{
+              marginTop: 20,
+              flexDirection: 'row',
+              alignItems: 'center',
+              alignSelf: 'center'
+            }}
+          >
+            <Text style={{ color: 'gray', fontWeight: '600', fontSize: 14 }}>
+              ¿Ya tenes cuenta?
             </Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+            <Pressable pl={2} onPress={() => navigation.navigate('Login')}>
+              <Text
+                color='blue.700'
+                fontWeight={'extrabold'}
+                fontSize={13}
+                textAlign='center'
+              >
+                Iniciar Sesión
+              </Text>
+            </Pressable>
+          </View>
+
+        </VStack>
+      </VStack>
       <StatusBar barStyle="light-content" />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff'
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'blue',
-    alignSelf: 'center',
-    padding: 24,
-    marginTop: 50
-  },
-  input: {
-    backgroundColor: '#F6F7FB',
-    height: 48,
-    marginBottom: 20,
-    fontSize: 16,
-    borderRadius: 10,
-    padding: 12
-  },
-  backImage: {
-    width: '100%',
-    height: 340,
-    position: 'absolute',
-    top: 0,
-    resizeMode: 'cover'
-  },
-  whiteSheet: {
-    width: '100%',
-    height: '75%',
-    position: 'absolute',
-    bottom: 0,
-    backgroundColor: '#fff'
-  },
-  form: {
-    flex: 1,
-    justifyContent: 'center',
-    marginHorizontal: 30,
-    marginTop: 100
-  },
-  button: {
-    backgroundColor: 'blue',
-    height: 48,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});

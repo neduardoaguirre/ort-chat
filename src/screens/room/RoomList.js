@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import {
   collection,
   doc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
@@ -21,18 +22,48 @@ import {
   Text,
   VStack
 } from 'native-base';
-import React, { useContext, useLayoutEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
+import React, {
+  useCallback,
+  useContext,
+  useLayoutEffect,
+  useState
+} from 'react';
+import { RefreshControl, ScrollView } from 'react-native';
 import { database } from '../../config/firebase';
 import { AuthenticatedUserContext } from '../../context/userContext';
 import { useDisclosure } from '../../hooks/useDisclosure';
+import { wait } from '../../utils/Helper';
 
 export const RoomListComponent = ({ navigation }) => {
+  const [refreshing, setRefreshing] = useState(false);
   const [rooms, setRooms] = useState([]);
   const { user } = useContext(AuthenticatedUserContext);
   const [selectedRoom, setSelectedRoom] = useState();
 
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const onRefresh = useCallback(async () => {
+    setRooms([]);
+
+    setRefreshing(true);
+
+    await wait(2000); // Add fake timeout
+
+    const collectionRef = collection(database, 'rooms');
+    const q = query(collectionRef, orderBy('name', 'desc'));
+    const r = await getDocs(q);
+
+    setRooms(
+      r.docs.map((d) => ({
+        id: d.id,
+        name: d.data().name,
+        info: d.data().info,
+        users: d.data().users
+      }))
+    );
+
+    setRefreshing(false);
+  }, []);
 
   useLayoutEffect(() => {
     const collectionRef = collection(database, 'rooms');
@@ -80,7 +111,11 @@ export const RoomListComponent = ({ navigation }) => {
   return (
     <>
       <Box flex="1" safeAreaTop>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <VStack marginBottom={2}>
             <Heading size="md" margin={5}>
               Salas
@@ -158,7 +193,11 @@ export const RoomListComponent = ({ navigation }) => {
                 justifyContent="center"
                 alignItems="center"
               >
-                <Spinner color="coolGray.800" size="lg" />
+                <Spinner
+                  display={refreshing ? 'none' : 'flex'}
+                  color="coolGray.800"
+                  size="lg"
+                />
                 <Heading color="coolGray.800" fontSize="md">
                   Cargando Salas...
                 </Heading>

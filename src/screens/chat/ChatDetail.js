@@ -6,7 +6,8 @@ import {
   collection,
   onSnapshot,
   orderBy,
-  query
+  query,
+  where
 } from 'firebase/firestore';
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
@@ -21,7 +22,8 @@ const colors = {
   lightGray: '#FAFAFA'
 };
 
-export const ChatDetailComponent = () => {
+export const ChatDetailComponent = ({ route }) => {
+  const defaultAvatar = require('../../assets/default-avatar.png');
   const navigation = useNavigation();
 
   const user = getUser();
@@ -73,8 +75,13 @@ export const ChatDetailComponent = () => {
   }, [navigation]);
 
   useLayoutEffect(() => {
-    const collectionRef = collection(database, 'chats');
-    const q = query(collectionRef, orderBy('createdAt', 'desc'));
+    // const collectionRef = collection(database, 'chats'), where('roomId', '==', route.params))
+    // const collectionRef =
+    const q = query(
+      collection(database, 'chats'),
+      where('roomId', '==', route.params)
+    );
+    // const q = query(collectionRef, orderBy('createdAt', 'desc'));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       console.log('querySnapshot unsusbscribe');
@@ -101,6 +108,7 @@ export const ChatDetailComponent = () => {
     console.log('Message to send: ', messages[0]);
 
     addDoc(collection(database, 'chats'), {
+      roomId: route.params,
       _id,
       createdAt,
       text,
@@ -111,7 +119,7 @@ export const ChatDetailComponent = () => {
   return (
     <GiftedChat
       renderAvatarOnTop={true}
-      messages={messages}
+      messages={messages.sort((a, b) => b.createdAt - a.createdAt)}
       showAvatarForEveryMessage={true}
       placeholder="Mensaje"
       showUserAvatar={true}
@@ -125,7 +133,7 @@ export const ChatDetailComponent = () => {
       }}
       user={{
         _id: user.uid,
-        avatar: user?.cloudinary?.url ?? 'https://i.pravatar.cc/300'
+        avatar: user?.cloudinary?.url ?? defaultAvatar
       }}
     />
   );

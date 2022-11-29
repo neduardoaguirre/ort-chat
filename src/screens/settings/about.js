@@ -13,5 +13,5 @@ export const AboutComponent = () => {
         </VStack>
       </ScrollView>
     </Box>
-  )
+  );
 };

@@ -9,11 +9,13 @@ import {
   Text,
   VStack
 } from 'native-base';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useLayoutEffect, useMemo, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { Button } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
-import { AuthenticatedUserContext } from 'context/userContext';
+import { AuthenticatedUserContext } from '../../context/userContext';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { database } from '../../config/firebase';
 
 const mockChats = [
   {
@@ -49,16 +51,34 @@ const mockChats = [
 ];
 
 export const ChatListComponent = ({ navigation }) => {
-  const [ chats, setChats ] = useState()
-  const { user } = useContext(AuthenticatedUserContext)
+  const [chats, setChats] = useState([]);
+  const { user } = useContext(AuthenticatedUserContext);
 
-  const chatBelongs = useMemo(() => (
-    chats.filter(chat => chat.room.users.includes(user.email))
-  ), [ chats ])
+  const chatBelongs = useMemo(
+    () => chats.filter((chat) => chat.users.includes(user.email)),
+    [chats]
+  );
+
+  useLayoutEffect(() => {
+    const collectionRef = collection(database, 'rooms');
+    const q = query(collectionRef, orderBy('name', 'desc'));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      setChats(
+        querySnapshot.docs.map((d) => ({
+          id: d.id,
+          name: d.data().name,
+          info: d.data().info,
+          users: d.data().users
+        }))
+      );
+    });
+    return unsubscribe;
+  }, []);
 
   const goTo = (chat) => {
     console.log('goTo Chat: ', chat);
-    navigation.push('ChatDetail');
+    navigation.push('ChatDetail', chat.id);
   };
 
   return (
@@ -93,7 +113,7 @@ export const ChatListComponent = ({ navigation }) => {
                       variant="solid"
                       rounded="4"
                     >
-                      {chat.room.name}
+                      {chat.name}
                     </Badge>
                     <Spacer></Spacer>
                     <Flex marginTop={3}>
@@ -105,7 +125,7 @@ export const ChatListComponent = ({ navigation }) => {
                         Ultima actvidad
                       </Text>
                       <Text fontSize={10} color="coolGray.800">
-                        {chat.chat.lastMessage.toDateString()}
+                        {/* {chat.chat.lastMessage.toDateString()} */}
                       </Text>
                     </Flex>
                   </HStack>

@@ -51,12 +51,12 @@ const mockChats = [
 ];
 
 export const ChatListComponent = ({ navigation }) => {
-  const [chats, setChats] = useState([]);
+  const [ chats, setChats ] = useState([]);
   const { user } = useContext(AuthenticatedUserContext);
 
   const chatBelongs = useMemo(
     () => chats.filter((chat) => chat.users.includes(user.email)),
-    [chats]
+    [ chats ]
   );
 
   useLayoutEffect(() => {
@@ -77,7 +77,6 @@ export const ChatListComponent = ({ navigation }) => {
   }, []);
 
   const goTo = (chat) => {
-    console.log('goTo Chat: ', chat);
     navigation.push('ChatDetail', chat.id);
   };
 

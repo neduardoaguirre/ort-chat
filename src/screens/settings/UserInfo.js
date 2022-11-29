@@ -22,8 +22,8 @@ export const UserInfo = () => {
 
   const user = getUser();
 
-  const [image, setImage] = useState(user?.cloudinary?.url ?? null);
-  const [userName, setUserName] = useState(user.userName ?? null);
+  const [ image, setImage ] = useState(user?.cloudinary?.url ?? null);
+  const [ userName, setUserName ] = useState(user.userName ?? null);
 
   async function handleProfilePicture() {
     const imagePickedBase64 = await pickImage();
@@ -50,7 +50,6 @@ export const UserInfo = () => {
     }
 
     await updateUser(user);
-
     navigation.goBack();
   }
 

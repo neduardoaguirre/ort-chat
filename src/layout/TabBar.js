@@ -24,8 +24,8 @@ const renderScene = SceneMap({
 });
 
 export const TabBarComponent = () => {
-  const [index, setIndex] = useState(0);
-  const [routes] = useState([
+  const [ index, setIndex ] = useState(0);
+  const [ routes ] = useState([
     {
       key: 'room',
       name: 'Salas',
@@ -67,7 +67,6 @@ export const TabBarComponent = () => {
             >
               <Pressable
                 onPress={() => {
-                  console.log(i);
                   setIndex(i);
                 }}
                 alignItems="center"

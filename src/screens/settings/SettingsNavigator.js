@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { AboutComponent } from './About';
+import { About } from './About';
 import { ConfigComponent } from './ProfileSettings';
 import { UserInfo } from './UserInfo';
 
@@ -13,7 +13,7 @@ export const ConfigStack = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Config" component={ConfigComponent} />
-        <Stack.Screen name="About" component={AboutComponent} />
+        <Stack.Screen name="About" component={About} />
         <Stack.Screen name="UserInfo" component={UserInfo} />
       </Stack.Navigator>
     </NavigationContainer>

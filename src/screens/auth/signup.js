@@ -18,16 +18,14 @@ import { updateUser } from '../../context/userContext';
 const backImage = require('../../assets/backImage.jpg');
 
 export const SignupComponent = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
+  const [ name, setName ] = useState('');
 
   const onHandleSignup = async () => {
     if (name !== '' && email !== '' && password !== '') {
       createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
-          console.log('Signup success');
-
           await createUserProfile(userCredential);
         })
         .catch((err) => Alert.alert('Login error', err.message));

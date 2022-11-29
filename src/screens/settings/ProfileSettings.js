@@ -8,7 +8,6 @@ import { signOut } from 'firebase/auth';
 
 export const ConfigComponent = ({ navigation }) => {
   const goTo = (path) => {
-    console.log('goTo: ', path);
     if (path === 'Exit') {
       onSignOut();
       return;

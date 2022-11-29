@@ -6,7 +6,6 @@ import {
   addDoc,
   collection,
   onSnapshot,
-  orderBy,
   query,
   where
 } from 'firebase/firestore';
@@ -30,7 +29,7 @@ export const ChatDetailComponent = ({ route }) => {
 
   const user = getUser();
 
-  const [messages, setMessages] = useState([]);
+  const [ messages, setMessages ] = useState([]);
 
   const onSignOut = () => {
     signOut(auth).catch((error) => console.log('Error logging out: ', error));
@@ -74,7 +73,7 @@ export const ChatDetailComponent = ({ route }) => {
         </View>
       )
     });
-  }, [navigation]);
+  }, [ navigation ]);
 
   useLayoutEffect(() => {
     // const collectionRef = collection(database, 'chats'), where('roomId', '==', route.params))
@@ -105,9 +104,8 @@ export const ChatDetailComponent = ({ route }) => {
       GiftedChat.append(previousMessages, messages)
     );
 
-    const { _id, createdAt, text, user } = messages[0];
+    const { _id, createdAt, text, user } = messages[ 0 ];
 
-    console.log('Message to send: ', messages[0]);
 
     addDoc(collection(database, 'messages'), {
       roomId: route.params,

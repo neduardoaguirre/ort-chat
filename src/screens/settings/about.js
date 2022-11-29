@@ -1,10 +1,10 @@
+import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Box, Heading, VStack, Divider } from 'native-base';
-import React from 'react';
-import { ScrollView, Text, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Box, Text, ScrollView, VStack, Pressable, Heading, Divider, View, HStack } from 'native-base';
 
-export const AboutComponent = () => {
+
+export const About = () => {
   const navigation = useNavigation();
 
   const handleBack = () => {
@@ -13,52 +13,33 @@ export const AboutComponent = () => {
 
   return (
     <Box flex="1" safeAreaTop>
-      <ScrollView style={styles.container}>
+      <ScrollView >
         <VStack marginBottom={2}>
-          <Heading size="md" margin={5} style={{ textAlign: 'center' }}>
-            Acerca de nosotros
-          </Heading>
-          <Divider />
-          <View>
-            <Text style={styles.text}>
-              Ort-chat es una aplicacion de chat para alumnos del instituto ORT.
-            </Text>
-            <Text style={styles.text}>
-              Posee salas con las distintas materias para que los alumnos puedan hacer consultas en las mismas.
-            </Text>
-            <TouchableOpacity onPress={handleBack}>
-              <Text style={styles.goBack} >
+          <Heading size="md" margin={5}  >
+            <HStack alignItems={'center'} justifyContent='center' space={2} >
+              <Pressable onPress={handleBack}>
                 <Ionicons
                   name="arrow-back"
-                  size={15}
+                  size={25}
                   color="blue"
                 />
-                Volver a los ajustes
+              </Pressable>
+              <Text textAlign={'center'} fontSize={'lg'} fontWeight='bold'>
+                Acerca de nosotros
               </Text>
-            </TouchableOpacity>
+            </HStack>
+          </Heading>
+          <Divider />
+          <View pl={5} pt={2}>
+            <Text>
+              Ort-chat es una aplicacion de chat para alumnos del instituto ORT.
+            </Text>
+            <Text>
+              Posee salas con las distintas materias para que los alumnos puedan hacer consultas en las mismas.
+            </Text>
           </View>
         </VStack>
-      </ScrollView>
+      </ScrollView >
     </Box>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff'
-  },
-  text: {
-    textAlign: 'center',
-    marginTop: 20,
-    marginHorizontal: 20
-  },
-  goBack: {
-    textAlign: 'center',
-    marginTop: 20,
-    marginHorizontal: 20,
-    color: 'blue',
-  }
-
-});
-

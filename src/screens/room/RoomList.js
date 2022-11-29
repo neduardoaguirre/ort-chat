@@ -47,7 +47,7 @@ export const RoomListComponent = ({ navigation }) => {
 
     setRefreshing(true);
 
-    await wait(1500); // Add fake timeout
+    await wait(2000); // Add fake timeout
 
     const collectionRef = collection(database, 'rooms');
     const q = query(collectionRef, orderBy('name', 'desc'));

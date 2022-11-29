@@ -11,10 +11,11 @@ const Stack = createStackNavigator();
 export const ConfigStack = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator >
         <Stack.Screen name="Config" component={ConfigComponent} />
-        <Stack.Screen name="About" component={AboutComponent} />
-        <Stack.Screen name="UserInfo" component={UserInfo} />
+        <Stack.Screen name="About" component={AboutComponent} options={{ title: 'Nosotros' }}
+        />
+        <Stack.Screen name="UserInfo" component={UserInfo} options={{ title: 'Perfil' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -7,6 +7,8 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  Modal,
+  HStack,
   TextInput,
   TouchableOpacity,
   View
@@ -49,7 +51,7 @@ export const UserInfo = () => {
 
     await updateUser(user);
 
-    navigation.navigate('Chat');
+    navigation.goBack();
   }
 
   return (

@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { About } from './About';
+import { About } from './about';
 import { ConfigComponent } from './ProfileSettings';
 import { UserInfo } from './UserInfo';
 

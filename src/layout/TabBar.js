@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Box, Text, useColorModeValue, Pressable } from 'native-base';
+import { Box, Pressable, Text } from 'native-base';
 import React, { useState } from 'react';
-import { Animated, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { ChatStack } from '../screens/chat/ChatNavigator';
-import { ConfigStack } from '../screens/settings/SettingsNavigator';
 import { RoomStack } from '../screens/room/RoomNavigator';
+import { ConfigStack } from '../screens/settings/SettingsNavigator';
 
 const RoomRoute = () => <RoomStack></RoomStack>;
 
@@ -24,37 +24,56 @@ const renderScene = SceneMap({
 });
 
 export const TabBarComponent = () => {
-  const [ index, setIndex ] = useState(0);
-  const [ routes ] = useState([
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
     {
       key: 'room',
       name: 'Salas',
-      icon: <Ionicons name="albums-outline" size={24} color="black" />
+      icon: (color, active) => {
+        return (
+          <Ionicons
+            name="albums-outline"
+            size={active ? 25 : 20}
+            color={color}
+          />
+        );
+      }
     },
     {
       key: 'chat',
       name: 'Mis Chats',
-      icon: <Ionicons name="chatbubbles-outline" size={24} color="black" />
+      icon: (color, active) => {
+        return (
+          <Ionicons
+            name="chatbubbles-outline"
+            size={active ? 25 : 20}
+            color={color}
+          />
+        );
+      }
     },
     {
       key: 'setting',
       name: 'Ajustes',
-      icon: <Ionicons name="settings-outline" size={24} color="black" />
+      icon: (color, active) => {
+        return (
+          <Ionicons
+            name="settings-outline"
+            size={active ? 25 : 20}
+            color={color}
+          />
+        );
+      }
     }
   ]);
 
   const renderTabBar = (props) => {
     return (
-      <Box flexDirection="row">
+      <Box flexDirection="row" height="70px" maxHeight="70px">
         {props.navigationState.routes.map((route, i) => {
-          const color =
-            index === i
-              ? useColorModeValue('#000', '#e5e5e5')
-              : useColorModeValue('#1f2937', '#a1a1aa');
-          const borderColor =
-            index === i
-              ? 'cyan.500'
-              : useColorModeValue('coolGray.200', 'gray.400');
+          const active = index === i;
+          const color = active ? '#053df5' : '#3261fa';
+          const borderColor = active ? '#3261fa' : 'blue.200';
           return (
             <Box
               borderBottomWidth="3"
@@ -63,7 +82,7 @@ export const TabBarComponent = () => {
               alignItems="center"
               p="3"
               key={route.key}
-              bgColor="blue.500"
+              bgColor="blue.400"
             >
               <Pressable
                 onPress={() => {
@@ -71,14 +90,10 @@ export const TabBarComponent = () => {
                 }}
                 alignItems="center"
               >
-                <Animated.Text
-                  style={{
-                    color
-                  }}
-                >
-                  {route.icon}
-                </Animated.Text>
-                <Text>{route.name}</Text>
+                {route.icon(color, active)}
+                <Text color={color} fontWeight={active ? 'bold' : 'normal'}>
+                  {route.name}
+                </Text>
               </Pressable>
             </Box>
           );

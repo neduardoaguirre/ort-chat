@@ -26,15 +26,12 @@ export const cloudinaryUpload = (file, fileName, isChatFile) => {
 
     xhr.onload = () => {
       const res = JSON.parse(xhr.response);
-      console.log("cloudinaryUpload - OK: ", res);
       resolve(res);
     };
     xhr.onerror = (error) => {
-      console.log("cloudinaryUpload - ERROR: ", error);
       resolve(null);
     };
     xhr.ontimeout = (error) => {
-      console.log("cloudinaryUpload - ERROR: ", error);
       resolve(null);
     };
 

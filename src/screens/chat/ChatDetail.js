@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { Heading, Divider } from 'native-base';
+import { Icon, HStack, Text } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { auth, database } from '../../config/firebase';
 import { getUser } from '../../context/userContext';
@@ -76,16 +76,13 @@ export const ChatDetailComponent = ({ route }) => {
   }, [ navigation ]);
 
   useLayoutEffect(() => {
-    // const collectionRef = collection(database, 'chats'), where('roomId', '==', route.params))
-    // const collectionRef =
+
     const q = query(
       collection(database, 'messages'),
-      where('roomId', '==', route.params)
+      where('roomId', '==', route.params.id)
     );
-    // const q = query(collectionRef, orderBy('createdAt', 'desc'));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      console.log('querySnapshot unsusbscribe');
       setMessages(
         querySnapshot.docs.map((doc) => ({
           _id: doc.data()._id,
@@ -106,9 +103,8 @@ export const ChatDetailComponent = ({ route }) => {
 
     const { _id, createdAt, text, user } = messages[ 0 ];
 
-
     addDoc(collection(database, 'messages'), {
-      roomId: route.params,
+      roomId: route.params.id,
       _id,
       createdAt,
       text,
@@ -122,16 +118,19 @@ export const ChatDetailComponent = ({ route }) => {
 
   return (
     <>
-      <Heading size="md" margin={5} >
-        <TouchableOpacity onPress={handleBack}>
-          <Ionicons
-            name="arrow-back"
-            size={25}
-            color="blue"
-          />
-        </TouchableOpacity>
-      </Heading>
-      <Divider />
+      <HStack width='100%' bgColor={'gray.150'} p={5} space={3} mt={4} alignItems='center' >
+        <Icon
+          onPress={handleBack}
+          color="blue.700"
+          size={25}
+          as={
+            <Ionicons
+              name="arrow-back"
+            />
+          }
+        />
+        <Text color='blue.700' fontWeight={'bold'} textAlign='center' fontSize={15}>{route.params.name}</Text>
+      </HStack>
       <GiftedChat
         renderAvatarOnTop={true}
         messages={messages.sort((a, b) => b.createdAt - a.createdAt)}

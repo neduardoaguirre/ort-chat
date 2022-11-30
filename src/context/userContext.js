@@ -8,7 +8,7 @@ let userModel = new User();
 export const AuthenticatedUserContext = createContext({});
 
 export const AuthenticatedUserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [ user, setUser ] = useState(null);
 
   return (
     <AuthenticatedUserContext.Provider value={{ user, setUser }}>
@@ -48,5 +48,4 @@ export const updateUser = async (user) => {
   // Update local userModel
   userModel = user;
 
-  console.log('Updated user: ', userModel);
 };

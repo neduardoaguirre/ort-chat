@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { Heading } from 'native-base';
+import { Button, Heading } from 'native-base';
 import { pickImage } from '../../utils/imagePicker';
 import { getUser, updateUser } from '../../context/userContext';
 import { cloudinaryUpload } from '../../utils/cloudinary';
@@ -24,6 +24,7 @@ export const UserInfo = () => {
 
   const [ image, setImage ] = useState(user?.cloudinary?.url ?? null);
   const [ userName, setUserName ] = useState(user.userName ?? null);
+  const [ isLoading, setIsLoading ] = useState(false)
 
   async function handleProfilePicture() {
     const imagePickedBase64 = await pickImage();
@@ -34,23 +35,30 @@ export const UserInfo = () => {
   }
 
   async function handleSave() {
-    if (image) {
-      const cloudinary = await cloudinaryUpload(image, user.uid, false);
+    try {
+      setIsLoading(true)
+      if (image) {
+        const cloudinary = await cloudinaryUpload(image, user.uid, false);
 
-      if (cloudinary) {
-        user.cloudinary = {
-          url: cloudinary.url,
-          assetId: cloudinary.asset_id
-        };
+        if (cloudinary) {
+          user.cloudinary = {
+            url: cloudinary.url,
+            assetId: cloudinary.asset_id
+          };
+        }
       }
+
+      if (userName) {
+        user.userName = userName;
+      }
+      await updateUser(user);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
     }
 
-    if (userName) {
-      user.userName = userName;
-    }
-
-    await updateUser(user);
-    navigation.goBack();
   }
 
   const handleBack = () => {
@@ -112,15 +120,14 @@ export const UserInfo = () => {
           value={userName}
           onChangeText={(text) => setUserName(text)}
         />
-        <TouchableOpacity
-          style={styles.button}
+        <Button
           onPress={handleSave}
-          disabled={!userName || !image}
+          isDisabled={!userName || !image || isLoading}
+          bgColor='blue.700'
+          fontSize={16}
         >
-          <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>
-            Guardar
-          </Text>
-        </TouchableOpacity>
+          Guardar
+        </Button>
       </SafeAreaView>
       <StatusBar barStyle="light-content" />
     </View>

@@ -82,7 +82,7 @@ export const ChatListComponent = ({ navigation }) => {
   }, []);
 
   const goTo = (chat) => {
-    navigation.push('ChatDetail', chat.id);
+    navigation.push('ChatDetail', chat);
   };
 
   return (

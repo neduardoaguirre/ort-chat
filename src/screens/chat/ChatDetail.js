@@ -1,6 +1,3 @@
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { signOut } from 'firebase/auth';
 import {
   addDoc,
   collection,
@@ -8,71 +5,16 @@ import {
   query,
   where
 } from 'firebase/firestore';
-import { HStack, Icon, Text } from 'native-base';
 import React, { useCallback, useLayoutEffect, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { auth, database } from '../../config/Firebase';
+import { database } from '../../config/Firebase';
 import { getUser } from '../../context/UserContext';
-
-const colors = {
-  primary: 'blue',
-  gray: '#C5C5C7',
-  mediumGray: '#F6F7FB',
-  lightGray: '#FAFAFA'
-};
+import { Header } from '../../layout/Header';
 
 export const ChatDetailComponent = ({ route }) => {
   const defaultAvatar = require('../../assets/default-avatar.png');
-  const navigation = useNavigation();
-
   const user = getUser();
-
   const [messages, setMessages] = useState([]);
-
-  const onSignOut = () => {
-    signOut(auth).catch((error) => console.log('Error logging out: ', error));
-  };
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row'
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              marginRight: 10
-            }}
-            onPress={() => navigation.navigate('Profile')}
-          >
-            <AntDesign
-              name="user"
-              size={24}
-              color={colors.gray}
-              style={{ marginRight: 10 }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              marginRight: 10
-            }}
-            onPress={onSignOut}
-          >
-            <AntDesign
-              name="logout"
-              size={24}
-              color={colors.gray}
-              style={{ marginRight: 10 }}
-            />
-          </TouchableOpacity>
-        </View>
-      )
-    });
-  }, [navigation]);
 
   useLayoutEffect(() => {
     const q = query(
@@ -110,35 +52,9 @@ export const ChatDetailComponent = ({ route }) => {
     });
   }, []);
 
-  const handleBack = () => {
-    navigation.goBack();
-  };
-
   return (
     <>
-      <HStack
-        width="100%"
-        bgColor={'gray.150'}
-        p={5}
-        space={3}
-        mt={4}
-        alignItems="center"
-      >
-        <Icon
-          onPress={handleBack}
-          color="blue.700"
-          size={25}
-          as={<Ionicons name="arrow-back" />}
-        />
-        <Text
-          color="blue.700"
-          fontWeight={'bold'}
-          textAlign="center"
-          fontSize={15}
-        >
-          {route.params.name}
-        </Text>
-      </HStack>
+      <Header title={route.params.name}></Header>
       <GiftedChat
         renderAvatarOnTop={true}
         messages={messages.sort((a, b) => b.createdAt - a.createdAt)}

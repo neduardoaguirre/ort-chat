@@ -10,7 +10,6 @@ import {
   Badge,
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   HStack,
@@ -29,6 +28,7 @@ import React, {
 import { RefreshControl, ScrollView } from 'react-native';
 import { database } from '../../config/Firebase';
 import { AuthenticatedUserContext } from '../../context/UserContext';
+import { Header } from '../../layout/Header';
 import { wait } from '../../utils/Helper';
 
 export const ChatListComponent = ({ navigation }) => {
@@ -86,17 +86,14 @@ export const ChatListComponent = ({ navigation }) => {
   };
 
   return (
-    <Box flex="1" safeAreaTop>
+    <Box flex="1">
+      <Header title="Chats"></Header>
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <VStack marginBottom={2}>
-          <Heading size="md" margin={5}>
-            Chats
-          </Heading>
-          <Divider />
           {chatBelongs?.length ? (
             React.Children.toArray(
               chatBelongs.map((chat, i) => {

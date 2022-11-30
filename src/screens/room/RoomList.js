@@ -12,7 +12,6 @@ import {
   Badge,
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   HStack,
@@ -32,6 +31,7 @@ import { RefreshControl, ScrollView } from 'react-native';
 import { database } from '../../config/Firebase';
 import { AuthenticatedUserContext } from '../../context/UserContext';
 import { useDisclosure } from '../../hooks/UseDisclosure';
+import { Header } from '../../layout/Header';
 import { wait } from '../../utils/Helper';
 
 export const RoomListComponent = ({ navigation }) => {
@@ -110,17 +110,14 @@ export const RoomListComponent = ({ navigation }) => {
 
   return (
     <>
-      <Box flex="1" safeAreaTop>
+      <Box flex="1">
+        <Header title="Salas"></Header>
         <ScrollView
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
           <VStack marginBottom={2}>
-            <Heading size="md" margin={5}>
-              Salas
-            </Heading>
-            <Divider />
             {rooms?.length ? (
               React.Children.toArray(
                 rooms.map((r, i) => {

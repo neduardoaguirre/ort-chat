@@ -1,8 +1,9 @@
 import { signOut } from 'firebase/auth';
-import { Box, Button, Divider, Flex, Heading, Text, VStack } from 'native-base';
+import { Box, Button, Divider, Flex, Text, VStack } from 'native-base';
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { auth } from '../../config/Firebase';
+import { Header } from '../../layout/Header';
 import { appVersion } from '../../utils/Version';
 
 export const ConfigComponent = ({ navigation }) => {
@@ -20,12 +21,10 @@ export const ConfigComponent = ({ navigation }) => {
   };
 
   return (
-    <Box flex="1" safeAreaTop>
+    <Box flex="1">
+      <Header title="Ajustes"></Header>
       <ScrollView>
         <VStack marginBottom={2}>
-          <Heading size="md" margin={5}>
-            Ajustes
-          </Heading>
           <Divider />
           <Flex direction="column" padding={5}>
             <Button marginBottom={2} onPress={() => goTo('UserInfo')}>

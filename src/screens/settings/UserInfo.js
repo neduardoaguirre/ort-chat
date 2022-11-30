@@ -1,6 +1,6 @@
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Button, Heading } from 'native-base';
+import { Button } from 'native-base';
 import React, { useState } from 'react';
 import {
   Image,
@@ -13,6 +13,7 @@ import {
   View
 } from 'react-native';
 import { getUser, updateUser } from '../../context/UserContext';
+import { Header } from '../../layout/Header';
 import { cloudinaryUpload } from '../../utils/Cloudinary';
 import { pickImage } from '../../utils/ImagePicker';
 
@@ -59,17 +60,9 @@ export const UserInfo = () => {
     }
   }
 
-  const handleBack = () => {
-    navigation.goBack();
-  };
-
   return (
     <View style={styles.container}>
-      <Heading size="md" margin={5}>
-        <TouchableOpacity onPress={handleBack}>
-          <Ionicons name="arrow-back" size={25} color="blue" />
-        </TouchableOpacity>
-      </Heading>
+      <Header title="Perfil"></Header>
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
         <TouchableOpacity

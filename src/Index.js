@@ -3,19 +3,19 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { NativeBaseProvider } from 'native-base';
 import React, { useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { auth } from './config/firebase';
+import { auth } from './config/Firebase';
 import {
   AuthenticatedUserContext,
   AuthenticatedUserProvider,
   loadUser
-} from './context/userContext';
-import { AuthNavigator } from './screens/auth/AuthNavigator';
+} from './context/UserContext';
 import { TabBarComponent } from './layout/TabBar';
-import theme from './theme/theme';
+import { AuthNavigator } from './screens/auth/AuthNavigator';
+import theme from './theme/Theme';
 
 const RootNavigator = () => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
-  const [ isLoading, setIsLoading ] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // onAuthStateChanged returns an unsubscriber
@@ -29,7 +29,7 @@ const RootNavigator = () => {
     );
 
     return unsubscribeAuth;
-  }, [ user ]);
+  }, [user]);
 
   if (isLoading) {
     return (

@@ -29,9 +29,9 @@ import React, {
   useState
 } from 'react';
 import { RefreshControl, ScrollView } from 'react-native';
-import { database } from '../../config/firebase';
-import { AuthenticatedUserContext } from '../../context/userContext';
-import { useDisclosure } from '../../hooks/useDisclosure';
+import { database } from '../../config/Firebase';
+import { AuthenticatedUserContext } from '../../context/UserContext';
+import { useDisclosure } from '../../hooks/UseDisclosure';
 import { wait } from '../../utils/Helper';
 
 export const RoomListComponent = ({ navigation }) => {

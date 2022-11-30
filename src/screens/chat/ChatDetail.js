@@ -1,5 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { signOut } from 'firebase/auth';
 import {
@@ -9,12 +8,12 @@ import {
   query,
   where
 } from 'firebase/firestore';
+import { HStack, Icon, Text } from 'native-base';
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { Icon, HStack, Text } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { auth, database } from '../../config/firebase';
-import { getUser } from '../../context/userContext';
+import { auth, database } from '../../config/Firebase';
+import { getUser } from '../../context/UserContext';
 
 const colors = {
   primary: 'blue',
@@ -29,7 +28,7 @@ export const ChatDetailComponent = ({ route }) => {
 
   const user = getUser();
 
-  const [ messages, setMessages ] = useState([]);
+  const [messages, setMessages] = useState([]);
 
   const onSignOut = () => {
     signOut(auth).catch((error) => console.log('Error logging out: ', error));
@@ -73,10 +72,9 @@ export const ChatDetailComponent = ({ route }) => {
         </View>
       )
     });
-  }, [ navigation ]);
+  }, [navigation]);
 
   useLayoutEffect(() => {
-
     const q = query(
       collection(database, 'messages'),
       where('roomId', '==', route.params.id)
@@ -101,7 +99,7 @@ export const ChatDetailComponent = ({ route }) => {
       GiftedChat.append(previousMessages, messages)
     );
 
-    const { _id, createdAt, text, user } = messages[ 0 ];
+    const { _id, createdAt, text, user } = messages[0];
 
     addDoc(collection(database, 'messages'), {
       roomId: route.params.id,
@@ -113,23 +111,33 @@ export const ChatDetailComponent = ({ route }) => {
   }, []);
 
   const handleBack = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   return (
     <>
-      <HStack width='100%' bgColor={'gray.150'} p={5} space={3} mt={4} alignItems='center' >
+      <HStack
+        width="100%"
+        bgColor={'gray.150'}
+        p={5}
+        space={3}
+        mt={4}
+        alignItems="center"
+      >
         <Icon
           onPress={handleBack}
           color="blue.700"
           size={25}
-          as={
-            <Ionicons
-              name="arrow-back"
-            />
-          }
+          as={<Ionicons name="arrow-back" />}
         />
-        <Text color='blue.700' fontWeight={'bold'} textAlign='center' fontSize={15}>{route.params.name}</Text>
+        <Text
+          color="blue.700"
+          fontWeight={'bold'}
+          textAlign="center"
+          fontSize={15}
+        >
+          {route.params.name}
+        </Text>
       </HStack>
       <GiftedChat
         renderAvatarOnTop={true}

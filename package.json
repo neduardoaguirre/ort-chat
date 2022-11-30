@@ -1,7 +1,7 @@
 {
   "name": "ort-chat",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "src/Index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",

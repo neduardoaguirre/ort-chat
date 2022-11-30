@@ -27,18 +27,18 @@ import React, {
   useState
 } from 'react';
 import { RefreshControl, ScrollView } from 'react-native';
-import { database } from '../../config/firebase';
-import { AuthenticatedUserContext } from '../../context/userContext';
+import { database } from '../../config/Firebase';
+import { AuthenticatedUserContext } from '../../context/UserContext';
 import { wait } from '../../utils/Helper';
 
 export const ChatListComponent = ({ navigation }) => {
-  const [ refreshing, setRefreshing ] = useState(false);
-  const [ chats, setChats ] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [chats, setChats] = useState([]);
   const { user } = useContext(AuthenticatedUserContext);
 
   const chatBelongs = useMemo(
     () => chats.filter((chat) => chat.users.includes(user.email)),
-    [ chats ]
+    [chats]
   );
 
   const onRefresh = useCallback(async () => {

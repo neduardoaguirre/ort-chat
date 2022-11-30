@@ -1,17 +1,27 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { auth } from '../../config/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  Button,
+  Icon,
+  Image,
+  Input,
+  Pressable,
+  StatusBar,
+  Text,
+  View,
+  VStack
+} from 'native-base';
+import React, { useState } from 'react';
+import backImage from '../../assets/backImage.jpg';
+import { auth } from '../../config/Firebase';
+import { updateUser } from '../../context/UserContext';
 import { User } from '../../models/User';
-import { updateUser } from '../../context/userContext';
-import backImage from '../../assets/backImage.jpg'
-import { Pressable, Icon, Image, View, Text, StatusBar, Input, VStack, Box, Button, Stack } from 'native-base';
 
 export const SignupComponent = ({ navigation }) => {
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ name, setName ] = useState('');
-  const [ show, setShow ] = useState(false)
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [show, setShow] = useState(false);
 
   const onHandleSignup = async () => {
     if (name !== '' && email !== '' && password !== '') {
@@ -37,7 +47,7 @@ export const SignupComponent = ({ navigation }) => {
 
   return (
     <View flex={1}>
-      <Image source={backImage} alt='bgImage' h={'50%'} />
+      <Image source={backImage} alt="bgImage" h={'50%'} />
       <VStack
         space={2}
         p={2}
@@ -48,10 +58,10 @@ export const SignupComponent = ({ navigation }) => {
       >
         <Text
           bgColor={'white'}
-          alignSelf='center'
+          alignSelf="center"
           fontWeight={'bold'}
           fontSize={'3xl'}
-          color='blue.700'
+          color="blue.700"
         >
           ORT Chat
         </Text>
@@ -75,12 +85,21 @@ export const SignupComponent = ({ navigation }) => {
           placeholder="Contraseña"
           autoCapitalize="none"
           autoCorrect={false}
-          type={show ? 'text' : "password"}
+          type={show ? 'text' : 'password'}
           value={password}
           onChangeText={(text) => setPassword(text)}
-          InputRightElement={<Pressable onPress={() => setShow(!show)}>
-            <Icon as={<Ionicons name={show ? "eye-outline" : "eye-off-outline"} />} size={5} mr="2" color="muted.400" />
-          </Pressable>}
+          InputRightElement={
+            <Pressable onPress={() => setShow(!show)}>
+              <Icon
+                as={
+                  <Ionicons name={show ? 'eye-outline' : 'eye-off-outline'} />
+                }
+                size={5}
+                mr="2"
+                color="muted.400"
+              />
+            </Pressable>
+          }
         />
         <VStack>
           <Button bgColor={'blue.700'} onPress={onHandleSignup}>
@@ -99,20 +118,18 @@ export const SignupComponent = ({ navigation }) => {
             </Text>
             <Pressable pl={2} onPress={() => navigation.navigate('Login')}>
               <Text
-                color='blue.700'
+                color="blue.700"
                 fontWeight={'extrabold'}
                 fontSize={13}
-                textAlign='center'
+                textAlign="center"
               >
                 Iniciar Sesión
               </Text>
             </Pressable>
           </View>
-
         </VStack>
       </VStack>
       <StatusBar barStyle="light-content" />
     </View>
   );
 };
-

@@ -1,10 +1,9 @@
-import { Box, VStack, Heading, Flex, Text, Divider } from 'native-base';
+import { signOut } from 'firebase/auth';
+import { Box, Button, Divider, Flex, Heading, Text, VStack } from 'native-base';
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { Button } from 'native-base';
-import { appVersion } from '../../utils/version';
-import { auth } from '../../config/firebase';
-import { signOut } from 'firebase/auth';
+import { auth } from '../../config/Firebase';
+import { appVersion } from '../../utils/Version';
 
 export const ConfigComponent = ({ navigation }) => {
   const goTo = (path) => {

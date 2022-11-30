@@ -1,14 +1,14 @@
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import React, { createContext, useState } from 'react';
+import { database } from '../config/Firebase';
 import { User } from '../models/User';
-import { database } from '../config/firebase';
 
 let userModel = new User();
 
 export const AuthenticatedUserContext = createContext({});
 
 export const AuthenticatedUserProvider = ({ children }) => {
-  const [ user, setUser ] = useState(null);
+  const [user, setUser] = useState(null);
 
   return (
     <AuthenticatedUserContext.Provider value={{ user, setUser }}>
@@ -47,5 +47,4 @@ export const updateUser = async (user) => {
 
   // Update local userModel
   userModel = user;
-
 };

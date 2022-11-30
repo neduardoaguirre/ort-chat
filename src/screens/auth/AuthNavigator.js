@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { LoginComponent } from './login';
-import { SignupComponent } from './signup';
+import { LoginComponent } from './Login';
+import { SignupComponent } from './Signup';
 
 const { createStackNavigator } = require('@react-navigation/stack');
 

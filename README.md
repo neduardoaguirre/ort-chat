@@ -1,6 +1,8 @@
 # ORT-CHAT
+
 ##### TP Integrador BE-NT2-A Grupo 4
-> ReactNative + Expo + Firebase
+
+> ReactNative + NativeBase + Expo + Firebase
 
 # Requisitos
 
@@ -16,13 +18,17 @@
 ### 3) Ejecutar proyecto:
 
 Ejecución por defecto
+
 > npm run start
 
 Ejecutar Android
+
 > npm run android
 
 Ejecutar iOS
+
 > npm run ios
 
 Ejecutar Web
+
 > npm run web

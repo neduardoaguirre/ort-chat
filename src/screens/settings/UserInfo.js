@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { Button, Heading } from 'native-base';
 import React, { useState } from 'react';
 import {
   Image,
@@ -12,19 +12,18 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { Button, Heading } from 'native-base';
-import { pickImage } from '../../utils/imagePicker';
-import { getUser, updateUser } from '../../context/userContext';
-import { cloudinaryUpload } from '../../utils/cloudinary';
+import { getUser, updateUser } from '../../context/UserContext';
+import { cloudinaryUpload } from '../../utils/Cloudinary';
+import { pickImage } from '../../utils/ImagePicker';
 
 export const UserInfo = () => {
   const navigation = useNavigation();
 
   const user = getUser();
 
-  const [ image, setImage ] = useState(user?.cloudinary?.url ?? null);
-  const [ userName, setUserName ] = useState(user.userName ?? null);
-  const [ isLoading, setIsLoading ] = useState(false)
+  const [image, setImage] = useState(user?.cloudinary?.url ?? null);
+  const [userName, setUserName] = useState(user.userName ?? null);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleProfilePicture() {
     const imagePickedBase64 = await pickImage();
@@ -36,7 +35,7 @@ export const UserInfo = () => {
 
   async function handleSave() {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       if (image) {
         const cloudinary = await cloudinaryUpload(image, user.uid, false);
 
@@ -54,31 +53,25 @@ export const UserInfo = () => {
       await updateUser(user);
       navigation.goBack();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-
   }
 
   const handleBack = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
-      <Heading size="md" margin={5} >
+      <Heading size="md" margin={5}>
         <TouchableOpacity onPress={handleBack}>
-          <Ionicons
-            name="arrow-back"
-            size={25}
-            color="blue"
-          />
+          <Ionicons name="arrow-back" size={25} color="blue" />
         </TouchableOpacity>
       </Heading>
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
-
         <TouchableOpacity
           style={{
             display: 'flex',
@@ -123,7 +116,7 @@ export const UserInfo = () => {
         <Button
           onPress={handleSave}
           isDisabled={!userName || !image || isLoading}
-          bgColor='blue.700'
+          bgColor="blue.700"
           fontSize={16}
         >
           Guardar

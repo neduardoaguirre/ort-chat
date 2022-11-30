@@ -15,7 +15,6 @@ import {
   Flex,
   Heading,
   HStack,
-  Modal,
   Spacer,
   Spinner,
   Text,
@@ -33,6 +32,7 @@ import { AuthenticatedUserContext } from '../../context/UserContext';
 import { useDisclosure } from '../../hooks/UseDisclosure';
 import { Header } from '../../layout/Header';
 import { wait } from '../../utils/Helper';
+import { RoomDetailModal } from './RoomDetail';
 
 export const RoomListComponent = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -204,22 +204,11 @@ export const RoomListComponent = ({ navigation }) => {
         </ScrollView>
       </Box>
 
-      {selectedRoom && (
-        <Modal isOpen={isOpen} onClose={onClose} size="sm">
-          <Modal.Content maxH={212}>
-            <Modal.CloseButton />
-            <Modal.Header textAlign={'justify'}>
-              <HStack space={1}>
-                <Text>Sala:</Text>
-                <Text fontWeight={'bold'}>{selectedRoom.name}</Text>
-              </HStack>
-            </Modal.Header>
-            <Modal.Body>
-              <Text>{selectedRoom?.info}</Text>
-            </Modal.Body>
-          </Modal.Content>
-        </Modal>
-      )}
+      <RoomDetailModal
+        selectedRoom={selectedRoom}
+        isOpen={isOpen}
+        onClose={onClose}
+      ></RoomDetailModal>
     </>
   );
 };

@@ -1,17 +1,23 @@
-import { Box, Heading, VStack } from 'native-base';
+import { HStack, Modal, Text } from 'native-base';
 import React from 'react';
-import { ScrollView } from 'react-native';
 
-export const RoomDetailComponent = () => {
+export const RoomDetailModal = ({ selectedRoom, isOpen, onClose }) => {
   return (
-    <Box flex="1" safeAreaTop>
-      <ScrollView>
-        <VStack marginBottom={2}>
-          <Heading size="md" margin={5}>
-            Sala
-          </Heading>
-        </VStack>
-      </ScrollView>
-    </Box>
+    selectedRoom && (
+      <Modal isOpen={isOpen} onClose={onClose} size="sm">
+        <Modal.Content maxH={212}>
+          <Modal.CloseButton />
+          <Modal.Header textAlign={'justify'}>
+            <HStack space={1}>
+              <Text>Sala:</Text>
+              <Text fontWeight={'bold'}>{selectedRoom.name}</Text>
+            </HStack>
+          </Modal.Header>
+          <Modal.Body>
+            <Text>{selectedRoom?.info}</Text>
+          </Modal.Body>
+        </Modal.Content>
+      </Modal>
+    )
   );
 };
